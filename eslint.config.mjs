@@ -10,9 +10,13 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript", "plugin:tailwindcss/recommended"),
-  {
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  ...compat.config({
+    plugins: ["@typescript-eslint"],
+    extends: ["next"],
     rules: {
+      "react/no-unescaped-entities": "off",
+      "@next/next/no-page-custom-font": "off",
       "@typescript-eslint/no-unused-vars": "error",
       "@typescript-eslint/no-explicit-any": "error",
       "no-console": "warn",
@@ -24,7 +28,7 @@ const eslintConfig = [
         {
           "allow": [
             "api_url",
-            "some_other_identifier"
+            "Geist_Mono"
           ]
         }
       ],
@@ -36,7 +40,7 @@ const eslintConfig = [
         }
       ]
     }
-  }
+  })
 ];
 
 export default eslintConfig;
