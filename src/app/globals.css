@@ -42,6 +42,22 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  --color-black: #000000;
+  --color-black-950: #0d0d0d;
+  --color-black-900: #131313;
+  --color-black-800: #191919;
+  --color-black-700: #202020;
+  --color-black-600: #2e2e2e;
+  --color-black-500: #3b3b3b;
+  --color-black-400: #545454;
+  --color-black-300: #6e6e6e;
+  --color-black-200: #8c8c8c8c;
+  --color-black-100: #dcdcdc;
+  --color-black-50: #f5f5f5;
+  --color-white: #ffffff;
+
+  --color-brand-red: #f00;
 }
 
 :root {
