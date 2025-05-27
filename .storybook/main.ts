@@ -12,7 +12,7 @@ const config: StorybookConfig = {
       name: '@storybook/addon-styling-webpack',
       options: {
         postCss: {
-          implementation: require.resolve('postcss'),
+          implementation: require.resolve('postcss')
         },
         rules: [
           {
@@ -23,8 +23,8 @@ const config: StorybookConfig = {
               {
                 loader: require.resolve('css-loader'),
                 options: {
-                  importLoaders: 1,
-                },
+                  importLoaders: 1
+                }
               },
               {
                 loader: require.resolve('postcss-loader'),
@@ -32,16 +32,16 @@ const config: StorybookConfig = {
                   postcssOptions: {
                     plugins: [
                       require.resolve('@tailwindcss/postcss'),
-                      require.resolve('autoprefixer'),
-                    ],
-                  },
-                },
-              },
-            ],
-          },
-        ],
-      },
-    },
+                      require.resolve('autoprefixer')
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
   ],
   framework: {
     name: '@storybook/nextjs',
@@ -51,8 +51,8 @@ const config: StorybookConfig = {
   async webpackFinal(config) {
     config.resolve ??= {};
     config.resolve.alias ??= {};
-    config.resolve.alias["@"] = path.resolve(__dirname, "../src");
+    config.resolve.alias['@'] = path.resolve(__dirname, '../src');
     return config;
-  },
+  }
 };
 export default config;
