@@ -1,0 +1,66 @@
+.input-text {
+  @apply rounded-[12px] border border-black/10 bg-black/5 p-[12px] transition-all duration-300;
+  box-shadow:
+    0px 0px 1px 1px rgba(255, 255, 255, 0.05) inset,
+    1px 1px 1px 0px rgba(255, 255, 255, 0.15) inset;
+
+  label {
+    @apply text-black-300 w-full text-[11px] leading-[12px];
+  }
+
+  .input-text__input {
+    @apply flex items-center gap-[4px];
+
+    .input-text__show-password {
+      @apply text-black-200 cursor-pointer [&>svg]:size-[16px];
+    }
+  }
+
+  input {
+    @apply text-black-200 space-y-[4px] rounded-none border-none !bg-transparent p-0 shadow-none focus-within:outline-0 hover:shadow-none focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0;
+
+    &:focus {
+      @apply text-black-100;
+    }
+
+    &::placeholder {
+      @apply text-black-200;
+    }
+
+    /* Filled */
+    &:not(:placeholder-shown) {
+      @apply text-black-200;
+    }
+  }
+
+  &:hover {
+    @apply border border-black/40 bg-black/5;
+    box-shadow:
+      0px 0px 6px 1px rgba(255, 255, 255, 0.15),
+      0px 0px 1px 1px rgba(255, 255, 255, 0.05) inset,
+      1px 1px 1px 0px rgba(255, 255, 255, 0.15) inset;
+
+    input {
+      @apply text-black-100;
+    }
+  }
+
+  &:has(input:disabled) {
+    @apply border border-black/10 bg-black/5;
+    box-shadow:
+      0px 0px 1px 1px rgba(255, 255, 255, 0.05) inset,
+      1px 1px 1px 0px rgba(255, 255, 255, 0.15) inset;
+
+    label {
+      @apply text-black-200;
+    }
+
+    input {
+      @apply text-black-300;
+
+      &::placeholder {
+        @apply text-black-200;
+      }
+    }
+  }
+}

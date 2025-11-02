@@ -1,0 +1,57 @@
+.primary-button {
+  background: #ff3333;
+  color: white;
+  border: none;
+  padding: 16px 32px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(
+      158deg,
+      #f68081 15%,
+      #ff3333 50%,
+      #ff3333 50%,
+      #f68081 90%
+    );
+    border-radius: 50px;
+    z-index: -1;
+  }
+}
+
+.secondary-button {
+  @apply text-black-100 inline-flex items-center justify-center gap-2 rounded-[32px] border border-white;
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, 0) -0.94%,
+    rgba(255, 255, 255, 0.09) 47.02%,
+    rgba(255, 255, 255, 0) 104.06%
+  );
+  box-shadow:
+    2px 2px 4px 0px rgba(255, 255, 255, 0.25) inset,
+    0px 0px 3px 0px rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(2px);
+
+  &:hover {
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, 0) -0.94%,
+      rgba(255, 255, 255, 0.18) 47.02%,
+      rgba(255, 255, 255, 0) 104.06%
+    );
+    box-shadow:
+      2px 2px 4px 0px rgba(255, 255, 255, 0.25) inset,
+      0px 0px 3px 0px rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(2px);
+  }
+}
