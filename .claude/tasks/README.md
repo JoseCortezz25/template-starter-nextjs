@@ -19,13 +19,15 @@ Sessions solve three critical problems:
 ### When to Create Sessions
 
  **Create a session when**:
+
 - Task requires multiple steps or phases
 - Multiple specialized agents will be involved
 - Task will span multiple conversations
 - Decisions need to be preserved for future reference
-- Complex feature requiring planning ’ implementation ’ testing
+- Complex feature requiring planning ï¿½ implementation ï¿½ testing
 
 L **Skip sessions when**:
+
 - Single, trivial task (typo fix, simple edit)
 - Task completes in one step
 - No agent coordination needed
@@ -41,11 +43,12 @@ L **Skip sessions when**:
 
 **How**: Parent agent creates session file automatically
 
-**File Location**: `.claude/tasks/context_session_{id}.md`
+**File Location**: `.claude/tasks/context-session-{id}.md`
 
 **Session ID Format**: `{feature-name}-{YYYYMMDD}` or `{uuid-short}`
 
 **Example**:
+
 ```
 .claude/tasks/context_session_workout-tracking-20250103.md
 .claude/tasks/context_session_auth-flow-a3f8.md
@@ -55,15 +58,17 @@ L **Skip sessions when**:
 
 ### 2. Active Sessions
 
-**Status**: =â Active
+**Status**: =ï¿½ Active
 
 **Characteristics**:
+
 - Currently being worked on
 - Agents are appending entries
 - Plans are being executed
 - Files are being created/modified
 
 **Agent Responsibilities**:
+
 1. **ALWAYS read session context first** before starting work
 2. **Understand previous decisions** and why they were made
 3. **Continue from where previous work left off**
@@ -81,19 +86,20 @@ L **Skip sessions when**:
 
 ### 4. Paused Sessions
 
-**Status**: =á Paused
+**Status**: =ï¿½ Paused
 
 **When**: Work temporarily stopped (waiting for user input, dependency, or context switch)
 
-**Resume**: Update status to =â Active when resuming work
+**Resume**: Update status to =ï¿½ Active when resuming work
 
 ### 5. Blocked Sessions
 
-**Status**:   Blocked
+**Status**: ï¿½ Blocked
 
 **When**: Cannot proceed due to blocker
 
 **Common Blockers**:
+
 - Waiting for user decision
 - Missing dependency
 - Unresolved error
@@ -117,24 +123,25 @@ L **Skip sessions when**:
 
 Claude uses a KV-cache (key-value cache) to speed up processing. When the beginning of a prompt stays the same (stable prefix), the cache can be reused, resulting in:
 
-- ¡ **Faster responses** (skip processing cached content)
-- =° **Lower costs** (cached tokens are cheaper)
-- <¯ **Better consistency** (same context = consistent behavior)
+- ï¿½ **Faster responses** (skip processing cached content)
+- =ï¿½ **Lower costs** (cached tokens are cheaper)
+- <ï¿½ **Better consistency** (same context = consistent behavior)
 
 **Example**:
 
 ```
 Request 1: [Session Context] + [New Entry 1]
-         “
+         ï¿½
     Cache prefix: [Session Context]
 
 Request 2: [Session Context] + [New Entry 1] + [New Entry 2]
-         “
+         ï¿½
     Cache HIT! Reuse: [Session Context] + [New Entry 1]
     Only process: [New Entry 2]
 ```
 
 If you **overwrite** instead of append:
+
 - L Cache invalidated (prefix changed)
 - L Full reprocessing required
 - L Slower and more expensive
@@ -142,6 +149,7 @@ If you **overwrite** instead of append:
 ### Audit Trail
 
 Append-only preserves **complete history**:
+
 - See what was tried
 - Understand why decisions were made
 - Learn from errors
@@ -150,6 +158,7 @@ Append-only preserves **complete history**:
 ### Error Learning
 
 When things go wrong, having the full history allows:
+
 - Debugging what led to the error
 - Avoiding repeated mistakes
 - Understanding context of failed approaches
@@ -181,13 +190,13 @@ Every entry MUST include:
 
 ### Status Values
 
-| Status | Emoji | When to Use |
-|--------|-------|-------------|
-| Active | =â | Currently working on this |
-| Paused | =á | Temporarily stopped, can resume later |
-| Completed |  | Work finished successfully |
-| Blocked |   | Cannot proceed, need intervention |
-| Failed | L | Encountered unrecoverable error |
+| Status    | Emoji | When to Use                           |
+| --------- | ----- | ------------------------------------- |
+| Active    | =ï¿½    | Currently working on this             |
+| Paused    | =ï¿½    | Temporarily stopped, can resume later |
+| Completed |       | Work finished successfully            |
+| Blocked   | ï¿½     | Cannot proceed, need intervention     |
+| Failed    | L     | Encountered unrecoverable error       |
 
 ### Optional Fields
 
@@ -260,8 +269,9 @@ Include when relevant:
 
 ### Example: Bad Entry (Too Verbose)
 
-```markdown
+````markdown
 ---
+
 ## [2025-01-03 14:30] domain-architect: Workout Domain Model
 
 **Task**: Created workout domain model with all entities
@@ -269,12 +279,15 @@ Include when relevant:
 **Status**: Completed
 
 **Key Decisions**:
+
 - Repository Pattern because it provides abstraction over data access...
   [500 words of explanation]
 - Here's the full Workout interface:
   ```typescript
   [100 lines of code]
   ```
+````
+
 - Here's the validation schema:
   ```typescript
   [80 lines of code]
@@ -283,7 +296,8 @@ Include when relevant:
 [More verbose explanations and code dumps...]
 
 ---
-```
+
+````
 
 **Token Count**: ~2500 tokens L
 
@@ -366,7 +380,7 @@ Include when relevant:
 
 ```markdown
 [2025-01-03 10:00] parent-agent: Initial Session Setup
-Status: =â Active
+Status: =ï¿½ Active
 Next Steps: Launch domain-architect for business logic planning
 
 ---
@@ -386,7 +400,7 @@ Next Steps: UX designer for auth flow design
 Status:  Completed
 Plan: .claude/plans/ux-auth-plan.md
 Key Decisions:
-- Multi-step registration (email ’ password ’ profile)
+- Multi-step registration (email ï¿½ password ï¿½ profile)
 - Social login as secondary option
 - Password strength indicator (live feedback)
 Next Steps: nextjs-builder for page routing
@@ -419,9 +433,9 @@ All features working and tested
 Session COMPLETED
 
 ---
-```
+````
 
-**Total Session Tokens**: ~2500 tokens (6 entries × ~400 tokens each)
+**Total Session Tokens**: ~2500 tokens (6 entries ï¿½ ~400 tokens each)
 
 ---
 
@@ -433,13 +447,13 @@ When agents depend on each other:
 
 ```
 domain-architect (business logic)
-    “
+    ï¿½
 ux-ui-designer (uses domain entities)
-    “
+    ï¿½
 nextjs-builder (uses UX design)
-    “
+    ï¿½
 shadcn-builder (uses Next.js requirements)
-    “
+    ï¿½
 parent-agent (implements everything)
 ```
 
@@ -451,9 +465,9 @@ When agents can work independently:
 
 ```
 domain-architect (backend)  +  ux-ui-designer (frontend)
-              “                        “
+              ï¿½                        ï¿½
          [Both complete in parallel]
-                      “
+                      ï¿½
             nextjs-builder (combines both)
 ```
 
@@ -465,11 +479,11 @@ When design needs refinement:
 
 ```
 ux-ui-designer (initial design)
-    “
+    ï¿½
 parent reviews with user
-    “
+    ï¿½
 ux-ui-designer (refined design)
-    “
+    ï¿½
 implementation
 ```
 
@@ -482,13 +496,14 @@ implementation
 ### When to Archive
 
 Archive sessions after:
+
 -  30 days since completion
 -  Feature is stable in production
 -  No ongoing related work
 
 ### How to Archive
 
-1. Move file: `.claude/tasks/` ’ `.claude/tasks/archive/{year}/`
+1. Move file: `.claude/tasks/` ï¿½ `.claude/tasks/archive/{year}/`
 2. Keep filename: `context_session_{id}.md`
 3. Create archive index if needed
 
@@ -515,6 +530,7 @@ Archive sessions after:
 **Problem**: Agents not reading session before starting
 
 **Solution**:
+
 - Verify session_id is passed to agent
 - Check session file exists at expected path
 - Ensure agents follow "read session first" rule
@@ -524,6 +540,7 @@ Archive sessions after:
 **Problem**: Session file growing too large (>5000 tokens)
 
 **Solutions**:
+
 - Summarize early entries (create summary entry, archive old ones)
 - Split into multiple sessions (phase-based)
 - Use more concise entries (follow token budget)
@@ -533,6 +550,7 @@ Archive sessions after:
 **Problem**: Later agent contradicts earlier decision
 
 **Solution**:
+
 - Agent MUST read full session before planning
 - Reference conflicting decision explicitly
 - Document why change is necessary
@@ -543,6 +561,7 @@ Archive sessions after:
 **Problem**: Conversation restarted, lost context
 
 **Solution**:
+
 - Session file preserves all context
 - New conversation can read session and continue
 - This is the primary benefit of append-only sessions
@@ -554,6 +573,7 @@ Archive sessions after:
 ### Agent Checklist
 
 Before starting work:
+
 - [ ] Session ID provided?
 - [ ] Read `.claude/tasks/context_session_{id}.md`?
 - [ ] Understand previous decisions?
@@ -561,6 +581,7 @@ Before starting work:
 - [ ] Reviewed plans from other agents?
 
 After completing work:
+
 - [ ] Created plan in `.claude/plans/`?
 - [ ] Appended entry to session (not overwrite)?
 - [ ] Entry follows template?
@@ -570,21 +591,21 @@ After completing work:
 
 ### Session Status Guide
 
-| Status | What to Do |
-|--------|------------|
-| =â Active | Continue work, append entries |
-| =á Paused | Resume when unblocked |
-|  Completed | Archive after 30 days |
-|   Blocked | Document blocker, wait for resolution |
-| L Failed | Document lessons, may retry with new session |
+| Status     | What to Do                                   |
+| ---------- | -------------------------------------------- |
+| =ï¿½ Active  | Continue work, append entries                |
+| =ï¿½ Paused  | Resume when unblocked                        |
+|  Completed | Archive after 30 days                        |
+| ï¿½ Blocked  | Document blocker, wait for resolution        |
+| L Failed   | Document lessons, may retry with new session |
 
 ### Token Budget
 
-| Item | Target | Max |
-|------|--------|-----|
-| Entry | 300-500 | 800 |
-| Session Total | <3000 | 5000 |
-| Entire Context Load | <1500 | 2000 |
+| Item                | Target  | Max  |
+| ------------------- | ------- | ---- |
+| Entry               | 300-500 | 800  |
+| Session Total       | <3000   | 5000 |
+| Entire Context Load | <1500   | 2000 |
 
 ---
 
@@ -595,6 +616,7 @@ After completing work:
 **Entry Template**: See template file for full format
 
 **Quick Entry**:
+
 ```markdown
 ---
 ## [{timestamp}] {agent}: {Title}
@@ -617,6 +639,7 @@ After completing work:
 ## Summary
 
 **Sessions enable**:
+
 -  Context continuity across conversations
 -  Multi-agent coordination on complex tasks
 -  KV-cache optimization (faster, cheaper)
@@ -624,6 +647,7 @@ After completing work:
 -  Error recovery and learning
 
 **Remember**:
+
 - Always append, never overwrite
 - Keep entries concise (300-500 tokens)
 - Read session before starting work

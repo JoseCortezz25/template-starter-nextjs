@@ -22,6 +22,7 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 **Agents in this project:**
 
+- **Business Analysis & Ideation** → `.claude/agents/business-analyst.md`
 - **Next.js 15 & App Router Architecture** → `.claude/agents/nextjs-builder.md`
 - **Domain Business Logic & Entities** → `.claude/agents/domain-architect.md`
 - **UX/UI Design & Architecture** → `.claude/agents/ux-ui-designer.md`
