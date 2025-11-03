@@ -1,4 +1,4 @@
-# Osborn Project Tech Stack
+# Tech Stack
 
 **Complete technology stack with versions, commands, and development tools.**
 
@@ -48,26 +48,78 @@ npx shadcn@latest add dialog
 
 ### State Management
 
-| Library     | Version  | Purpose                                   |
-| ----------- | -------- | ----------------------------------------- |
-| **Zustand** | `5.0.5`  | Minimalist atomic state management        |
-| **nuqs**    | `latest` | URL-based state management (query params) |
+| Library             | Version   | Purpose                                   |
+| ------------------- | --------- | ----------------------------------------- |
+| **React Query**     | `^5.0.0`  | Server state management (data fetching)   |
+| **Zustand**         | `5.0.5`   | Client/UI state management                |
+| **React Hook Form** | `^7.53.2` | Complex form state management             |
+| **nuqs**            | `latest`  | URL-based state management (query params) |
 
-**Zustand Features**:
+#### State Management Strategy
+
+We follow a **decision matrix** to choose the right tool:
+
+| State Type    | Tool            | When to Use                         |
+| ------------- | --------------- | ----------------------------------- |
+| **Server**    | React Query     | Data from backend (fetched, cached) |
+| **Client/UI** | Zustand         | UI state, local preferences         |
+| **Local**     | useState        | Component-only state                |
+| **Forms**     | React Hook Form | Complex forms with validation       |
+
+**React Query (TanStack Query) Features**:
+
+- Automatic caching and background refetching
+- Optimistic updates
+- Request deduplication
+- Automatic loading and error states
+- Pagination and infinite scroll support
+- Devtools for debugging
+
+```tsx
+// React Query example
+import { useQuery, useMutation } from '@tanstack/react-query';
+
+export function useWorkouts() {
+  return useQuery({
+    queryKey: ['workouts'],
+    queryFn: () => workoutRepository.findAll()
+  });
+}
+```
+
+**Zustand Features** (for UI state only):
 
 - No providers needed
 - Minimalist API
 - Compatible with React Server Components
 - Atomic stores per domain
+- Built-in persistence middleware
 
 ```tsx
-// Store example
+// Zustand example (UI state only)
 import { create } from 'zustand';
 
-export const useAuthStore = create(set => ({
-  user: null,
-  setUser: user => set({ user })
+export const useSidebarStore = create(set => ({
+  isOpen: true,
+  toggle: () => set(state => ({ isOpen: !state.isOpen }))
 }));
+```
+
+**React Hook Form Features**:
+
+- Built-in validation with Zod resolver
+- Minimal re-renders
+- TypeScript support
+- Easy field management
+
+```tsx
+// React Hook Form example
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const { register, handleSubmit } = useForm({
+  resolver: zodResolver(mySchema)
+});
 ```
 
 ---
@@ -109,15 +161,27 @@ export const loginSchema = z.object({
 
 ### Form Handling
 
-**Approach**: React 19 built-in hooks (no external libraries)
+| Library                 | Version   | Purpose                        |
+| ----------------------- | --------- | ------------------------------ |
+| **React Hook Form**     | `^7.53.2` | Complex form state management  |
+| **@hookform/resolvers** | `^3.9.1`  | Zod integration for validation |
 
-- `useActionState`: Form state management with Server Actions
-- `useFormStatus`: Submission state feedback (pending, data, etc.)
-- Server Actions: Validation and mutation logic on server
+**Approach**: React Hook Form for complex forms, native hooks for simple forms
+
+- **Complex forms**: React Hook Form with Zod validation
+- **Simple forms**: React 19 built-in hooks (`useActionState`, `useFormStatus`)
+- **Server Actions**: Validation and mutation logic on server
 
 ```tsx
-// No react-hook-form or formik used
-// Using React 19 native approach
+// Complex forms with validation
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const { register, handleSubmit, formState } = useForm({
+  resolver: zodResolver(mySchema)
+});
+
+// Simple forms with Server Actions
 import { useActionState, useFormStatus } from 'react';
 ```
 
@@ -149,25 +213,58 @@ app/
 
 ### Data Fetching
 
-**Approach**: Native fetch with Next.js enhancements (no external libraries)
+| Library         | Version  | Purpose                               |
+| --------------- | -------- | ------------------------------------- |
+| **React Query** | `^5.0.0` | Client-side data fetching and caching |
 
-- `fetch` API with automatic Next.js caching
-- React Server Components for server-side fetching
+**Approach**: React Query for client components, native fetch for Server Components
+
+**Client Components** (interactive data):
+
+- Use **React Query** (TanStack Query) for all client-side data fetching
+- Automatic caching, background refetching, optimistic updates
+- Built-in loading and error states
+
+```tsx
+// Client component with React Query
+'use client';
+import { useQuery } from '@tanstack/react-query';
+
+export function WorkoutList() {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['workouts'],
+    queryFn: () => workoutRepository.findAll()
+  });
+}
+```
+
+**Server Components** (initial data):
+
+- Use native `fetch` with Next.js caching
 - Server Actions for mutations
 - `revalidatePath` / `revalidateTag` for cache invalidation
 
 ```tsx
-// No TanStack Query, SWR, or Apollo used
-// Using native fetch with RSC
+// Server component with native fetch
 async function getData() {
   const res = await fetch('https://api.example.com/data', {
     next: { revalidate: 3600 } // Cache for 1 hour
   });
   return res.json();
 }
+
+// Server Action for mutations
+('use server');
+export async function createWorkout(data: FormData) {
+  // Mutation logic
+  revalidatePath('/workouts');
+}
 ```
 
-**Note**: Documentation mentions TanStack Query in appendices, but main approach is RSC + Server Actions
+**Strategy**:
+
+- **Server Components**: Initial data loading, SEO-critical content
+- **Client Components with React Query**: Interactive features, real-time updates, optimistic UI
 
 ---
 

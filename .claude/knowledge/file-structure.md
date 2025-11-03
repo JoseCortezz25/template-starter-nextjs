@@ -1,4 +1,4 @@
-# File Structure Conventions - Osborn Project
+# File Structure Conventions
 
 **Strict rules for file names, directory organization, and import patterns.**
 

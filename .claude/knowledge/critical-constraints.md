@@ -1,4 +1,4 @@
-# Project Critical Constraints
+# Critical Constraints
 
 **Non-negotiable rules that MUST be followed in all code.**
 
@@ -171,36 +171,130 @@ const AuthWizard = '/'; // Directory must be kebab-case
 
 ---
 
-## 7. Atomic Zustand stores per domain
+## 7. State Management Strategy: Right tool for the right job
 
-❌ **NEVER**: One giant global store Redux-style  
-✅ **ALWAYS**: Small, specific stores per domain, without provider
+❌ **NEVER**: Use Zustand for server state (backend data) or useState for complex forms  
+✅ **ALWAYS**: Follow the state management decision matrix based on data type
 
-**Correct example**:
+### Decision Matrix
+
+| State Type    | Tool            | When to Use                         | Example                        |
+| ------------- | --------------- | ----------------------------------- | ------------------------------ |
+| **Server**    | React Query     | Data from backend (fetched, cached) | User list, workouts, exercises |
+| **Client/UI** | Zustand         | UI state, local preferences         | Sidebar open, theme, filters   |
+| **Local**     | useState        | Component-only state                | Form input, modal open         |
+| **Forms**     | React Hook Form | Complex forms with validation       | Multi-step forms, registration |
+
+### ❌ WRONG: Zustand for Server State
 
 ```tsx
-// domains/auth/stores/auth-store.ts
+// DON'T DO THIS
 import { create } from 'zustand';
 
-// ✅ Specific store for auth
-export const useAuthStore = create(set => ({
-  user: null,
-  setUser: user => set({ user })
+const useWorkoutStore = create(set => ({
+  workouts: [],
+  loading: false,
+  fetchWorkouts: async () => {
+    set({ loading: true });
+    const data = await api.getWorkouts();
+    set({ workouts: data, loading: false });
+  }
+}));
+```
+
+**Why it's wrong**:
+
+- Manual loading state management
+- No automatic cache invalidation
+- No optimistic updates
+- Hard to handle error states
+- Duplicates data across components
+
+### ✅ CORRECT: React Query for Server State
+
+```tsx
+// DO THIS
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { workoutRepository } from '@/domains/workouts/actions';
+
+export function useWorkouts() {
+  return useQuery({
+    queryKey: ['workouts'],
+    queryFn: () => workoutRepository.findAll()
+  });
+}
+
+export function useCreateWorkout() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: workoutRepository.create,
+    onSuccess: () => {
+      // ✅ Automatic cache invalidation
+      queryClient.invalidateQueries({ queryKey: ['workouts'] });
+    }
+  });
+}
+
+// In component
+function WorkoutList() {
+  const { data: workouts, isLoading, error } = useWorkouts();
+  const createWorkout = useCreateWorkout();
+
+  // ✅ React Query handles loading, error, cache automatically
+}
+```
+
+### ✅ CORRECT: Zustand for Client/UI State
+
+```tsx
+// DO THIS
+import { create } from 'zustand';
+
+// ✅ Only UI/client state
+export const useUIStore = create(set => ({
+  sidebarOpen: true,
+  theme: 'light',
+  toggleSidebar: () => set(state => ({ sidebarOpen: !state.sidebarOpen })),
+  setTheme: theme => set({ theme })
 }));
 
-// domains/users/stores/user-store.ts
-// ✅ Separate store for users
-export const useUserStore = create(set => ({
-  filters: {},
-  setFilters: filters => set({ filters })
-}));
+// In component
+function Sidebar() {
+  const { sidebarOpen, toggleSidebar } = useUIStore();
+  // ✅ Perfect for UI state
+}
+```
 
-// In client component
-('use client');
-import { useAuthStore } from '@/domains/auth/stores/auth-store';
+### ✅ CORRECT: useState for Local State
 
-function UserMenu() {
-  const user = useAuthStore(s => s.user); // ✅ No provider needed
+```tsx
+// DO THIS
+function SearchBar() {
+  const [query, setQuery] = useState(''); // ✅ Local to this component
+
+  return <input value={query} onChange={e => setQuery(e.target.value)} />;
+}
+```
+
+### ✅ CORRECT: React Hook Form for Complex Forms
+
+```tsx
+// DO THIS
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { registerSchema } from './schema';
+
+function RegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors }
+  } = useForm({
+    resolver: zodResolver(registerSchema)
+  });
+
+  // ✅ Handles validation, errors, submission state
 }
 ```
 
@@ -254,12 +348,54 @@ function AdminPanel() {
 
 ---
 
-## 9. Forms with useActionState and useFormStatus
+## 9. Forms: React Hook Form for complex, native hooks for simple
 
-❌ **NEVER**: Handle form state manually with useState  
-✅ **ALWAYS**: Use useActionState for state and useFormStatus for feedback
+❌ **NEVER**: Handle complex form state manually with useState  
+✅ **ALWAYS**: Use React Hook Form for complex forms, useActionState for simple forms
 
-**Correct example**:
+### Complex Forms (with validation)
+
+Use **React Hook Form** with Zod validation for complex forms with multiple fields, validation rules, or multi-step flows.
+
+```tsx
+// domains/auth/components/register-form.tsx
+'use client';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { registerSchema } from '../schema';
+
+export function RegisterForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting }
+  } = useForm({
+    resolver: zodResolver(registerSchema)
+  });
+
+  const onSubmit = async data => {
+    // Submit logic with validated data
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('email')} type="email" />
+      {errors.email && <span>{errors.email.message}</span>}
+
+      <input {...register('password')} type="password" />
+      {errors.password && <span>{errors.password.message}</span>}
+
+      <button disabled={isSubmitting}>
+        {isSubmitting ? 'Submitting...' : 'Register'}
+      </button>
+    </form>
+  );
+}
+```
+
+### Simple Forms (Server Actions)
+
+Use **useActionState** and **useFormStatus** for simple forms with basic fields and server-side validation.
 
 ```tsx
 // domains/auth/actions.ts
@@ -277,12 +413,11 @@ import { useFormStatus } from 'react-dom';
 import { loginAction } from '../actions';
 
 function SubmitButton() {
-  const { pending } = useFormStatus(); // ✅ Hook for feedback
+  const { pending } = useFormStatus();
   return <button disabled={pending}>{pending ? 'Loading...' : 'Login'}</button>;
 }
 
 export function LoginForm() {
-  // ✅ useActionState for form state
   const [state, formAction] = useActionState(loginAction, null);
 
   return (
@@ -429,8 +564,10 @@ Before proceeding with any task, verify:
 - [ ] Exports? → Must be named exports (no default)
 - [ ] Business logic? → Must be in `/domains/{domain}/` and extracted to custom hooks
 - [ ] Names? → Verify conventions: `is/has/should`, `handle`, `kebab-case`
-- [ ] Client state? → Atomic Zustand store in `/domains/{domain}/stores/`
-- [ ] Form? → shadcn/ui with zod and react hook form
+- [ ] State management? → Use correct tool: React Query (server), Zustand (UI), useState (local), React Hook Form (forms)
+- [ ] Backend data? → Must use React Query for fetching/caching, never Zustand
+- [ ] UI/Client state? → Atomic Zustand store in `/domains/{domain}/stores/`
+- [ ] Complex form? → React Hook Form with zodResolver for validation
 - [ ] Protected route? → Middleware + Server Action + Client UI validation
 - [ ] Repeated styles? → Extract to @apply in appropriate CSS files and using BEM.
 - [ ] Complex logic in component? → Extract to custom hook in `/domains/{domain}/hooks/`
