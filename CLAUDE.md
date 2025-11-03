@@ -22,12 +22,12 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 **Agents in this project:**
 
-- [List your agents here as you create them in `.claude/agents/`]
-- Format: **{Task Type}** → `.claude/agents/{agent-name}.md`
-
-- **ui-architect** → `.claude/agents/ui-architect.md`
-- **business-logic-engineer** → `.claude/agents/domain-architect.md`
-- **shadcn-builder** → `.claude/agents/shadcn-builder.md`
+- **Next.js 15 & App Router Architecture** → `.claude/agents/nextjs-builder.md`
+- **Domain Business Logic & Entities** → `.claude/agents/domain-architect.md`
+- **UX/UI Design & Architecture** → `.claude/agents/ux-ui-designer.md`
+- **shadcn/ui Component Selection** → `.claude/agents/shadcn-builder.md`
+- **Code Quality Review** → `.claude/agents/code-reviewer.md`
+- **UI Architecture (legacy)** → `.claude/agents/ui-architect.md`
 
 **How to use agents:**
 
