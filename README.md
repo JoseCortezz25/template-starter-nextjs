@@ -27,7 +27,6 @@
 - [Code Standards](#-code-standards)
 - [Development Workflow](#-development-workflow)
 - [Contributing](#-contributing)
-- [License](#-license)
 
 ---
 
@@ -639,13 +638,7 @@ Contributions are welcome! Please follow these guidelines:
 - Add tests for new features
 - Update documentation when needed
 - Ensure all tests pass before submitting PR
-- Follow the existing code style
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+- Follow existing code style
 
 ---
 
@@ -654,7 +647,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Jose Cortez**
 
 - GitHub: [@josecortezz16](https://github.com/josecortezz16)
-- Project Link: [https://github.com/josecortezz16/nextjs-starter-template](https://github.com/josecortezz16/nextjs-starter-template)
 
 ---
 
