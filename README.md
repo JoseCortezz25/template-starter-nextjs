@@ -59,7 +59,7 @@ This is a professional-grade Next.js 15 starter template designed for building s
 
 ```bash
 # Clone repository
-git clone https://github.com/josecortezz16/nextjs-starter-template.git
+git clone https://github.com/JoseCortezz25/nextjs-starter-template.git
 cd nextjs-starter-template
 
 # Install dependencies
@@ -646,7 +646,7 @@ Contributions are welcome! Please follow these guidelines:
 
 **Jose Cortez**
 
-- GitHub: [@josecortezz16](https://github.com/josecortezz16)
+- GitHub: [@JoseCortezz25](https://github.com/JoseCortezz25)
 
 ---
 
