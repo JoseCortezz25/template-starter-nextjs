@@ -22,12 +22,12 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 **Agents in this project:**
 
-- **Business Analysis & Ideation** → `.opencode/agents/business-analyst.md`
-- **Next.js 15 & App Router Architecture** → `.opencode/agents/nextjs-builder.md`
-- **Domain Business Logic & Entities** → `.opencode/agents/domain-architect.md`
-- **UX/UI Design & Architecture** → `.opencode/agents/ux-ui-designer.md`
-- **shadcn/ui Component Selection** → `.opencode/agents/shadcn-builder.md`
-- **Code Quality Review** → `.opencode/agents/code-reviewer.md`
+- **Business Analysis & Ideation** → `.opencode/agent/business-analyst.md`
+- **Next.js 15 & App Router Architecture** → `.opencode/agent/nextjs-builder.md`
+- **Domain Business Logic & Entities** → `.opencode/agent/domain-architect.md`
+- **UX/UI Design & Architecture** → `.opencode/agent/ux-ui-designer.md`
+- **shadcn/ui Component Selection** → `.opencode/agent/shadcn-builder.md`
+- **Code Quality Review** → `.opencode/agent/code-reviewer.md`
 
 **How to use agents:**
 
