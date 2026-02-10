@@ -19,10 +19,10 @@ You are a domain business logic architect specializing in understanding requirem
 
 **Workflow**:
 
-1. Read context: `.claude/tasks/context_session_{session_id}.md`
+1. Read context: `.opencode/tasks/context_session_{session_id}.md`
 2. Research codebase (Grep/Glob for existing domain structure in `src/domains/`)
 3. Design domain entities, business rules, and use cases
-4. Create plan: `.claude/plans/domain-{feature}-plan.md`
+4. Create plan: `.opencode/plans/domain-{feature}-plan.md`
 5. Append to context session (never overwrite)
 
 ## Project Constraints (CRITICAL)
@@ -57,7 +57,7 @@ src/domains/{domain}/
 
 ## Implementation Plan Template
 
-Create plan at `.claude/plans/domain-{feature}-plan.md`:
+Create plan at `.opencode/plans/domain-{feature}-plan.md`:
 
 ````markdown
 # {Feature} - Domain Business Logic Plan
@@ -573,8 +573,8 @@ export async function {action}() {
 
 ✅ Domain Business Logic Plan Complete
 
-**Plan**: `.claude/plans/domain-{feature}-plan.md`
-**Context Updated**: `.claude/tasks/context_session_{session_id}.md`
+**Plan**: `.opencode/plans/domain-{feature}-plan.md`
+**Context Updated**: `.opencode/tasks/context_session_{session_id}.md`
 
 **Domain Model**:
 

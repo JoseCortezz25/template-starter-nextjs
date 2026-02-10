@@ -34,7 +34,7 @@ Start: New Agent Task
 ALWAYS READ: critical-constraints.md (~200 tokens)
 ↓
 Session ID provided?
-├─ YES: Read .claude/tasks/context_session_{id}.md (~300-500 tokens)
+├─ YES: Read .opencode/tasks/context_session_{id}.md (~300-500 tokens)
 │   └─ TOTAL SO FAR: ~500-700 tokens ✅
 └─ NO: Continue (TOTAL: ~200 tokens)
 ↓
@@ -82,12 +82,12 @@ What type of task?
 
 ```markdown
 ❌ BAD: Read full file
-Read: file=".claude/knowledge/architecture-patterns.md"
+Read: file=".opencode/knowledge/architecture-patterns.md"
 Result: ~4000 tokens
 
 ✅ GOOD: Grep for specific section
 Grep: pattern="## Repository Pattern",
-path=".claude/knowledge/architecture-patterns.md",
+path=".opencode/knowledge/architecture-patterns.md",
 output_mode="content",
 -A=30
 Result: ~200 tokens (20x savings!)
@@ -112,11 +112,11 @@ Result: ~200 tokens (20x savings!)
 
 ```markdown
 ❌ BAD: Read full file
-Read: file=".claude/knowledge/business-rules.md"
+Read: file=".opencode/knowledge/business-rules.md"
 Result: ~2000 tokens
 
 ✅ GOOD: Read specific lines
-Read: file=".claude/knowledge/business-rules.md",
+Read: file=".opencode/knowledge/business-rules.md",
 offset=100,
 limit=50
 Result: ~300 tokens
@@ -278,19 +278,19 @@ TOTAL: 1400 tokens ✅
 ```bash
 # Get repository pattern implementation guide
 Grep: pattern="## Repository Pattern",
-      path=".claude/knowledge/architecture-patterns.md",
+      path=".opencode/knowledge/architecture-patterns.md",
       -A=50,
       output_mode="content"
 
 # Get dependency rules
 Grep: pattern="## Dependency Rule",
-      path=".claude/knowledge/architecture-patterns.md",
+      path=".opencode/knowledge/architecture-patterns.md",
       -A=20,
       output_mode="content"
 
 # Get state management strategy
 Grep: pattern="## State Management",
-      path=".claude/knowledge/architecture-patterns.md",
+      path=".opencode/knowledge/architecture-patterns.md",
       -A=40,
       output_mode="content"
 ```
@@ -302,19 +302,19 @@ Grep: pattern="## State Management",
 ```bash
 # Get user roles and permissions
 Grep: pattern="## User Roles",
-      path=".claude/knowledge/business-rules.md",
+      path=".opencode/knowledge/business-rules.md",
       -A=30,
       output_mode="content"
 
 # Get entity status transitions
 Grep: pattern="Status Transitions",
-      path=".claude/knowledge/business-rules.md",
+      path=".opencode/knowledge/business-rules.md",
       -A=25,
       output_mode="content"
 
 # Get validation rules
 Grep: pattern="## Validation Rules",
-      path=".claude/knowledge/business-rules.md",
+      path=".opencode/knowledge/business-rules.md",
       -A=40,
       output_mode="content"
 ```
@@ -326,13 +326,13 @@ Grep: pattern="## Validation Rules",
 ```bash
 # Get file naming conventions
 Grep: pattern="## File Naming",
-      path=".claude/knowledge/file-structure.md",
+      path=".opencode/knowledge/file-structure.md",
       -A=15,
       output_mode="content"
 
 # Get import patterns
 Grep: pattern="## Import Patterns",
-      path=".claude/knowledge/file-structure.md",
+      path=".opencode/knowledge/file-structure.md",
       -A=20,
       output_mode="content"
 ```

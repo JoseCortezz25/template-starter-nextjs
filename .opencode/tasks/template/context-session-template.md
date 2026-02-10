@@ -42,7 +42,7 @@ When appending a new entry, use this format:
 
 **Status**: 🟢 Active | 🟡 Paused | ✅ Completed | ⚠️ Blocked | ❌ Failed
 
-**Plan Location** (if applicable): {path to .claude/plans/plan-file.md}
+**Plan Location** (if applicable): {path to .opencode/plans/plan-file.md}
 
 **Key Decisions**:
 - {Decision 1 with brief rationale}

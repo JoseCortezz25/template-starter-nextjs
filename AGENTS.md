@@ -22,12 +22,12 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 **Agents in this project:**
 
-- **Business Analysis & Ideation** → `.opencode/agent/business-analyst.md`
-- **Next.js 15 & App Router Architecture** → `.opencode/agent/nextjs-builder.md`
-- **Domain Business Logic & Entities** → `.opencode/agent/domain-architect.md`
-- **UX/UI Design & Architecture** → `.opencode/agent/ux-ui-designer.md`
-- **shadcn/ui Component Selection** → `.opencode/agent/shadcn-builder.md`
-- **Code Quality Review** → `.opencode/agent/code-reviewer.md`
+- **Business Analysis & Ideation** → `.opencode/agents/business-analyst.md`
+- **Next.js 15 & App Router Architecture** → `.opencode/agents/nextjs-builder.md`
+- **Domain Business Logic & Entities** → `.opencode/agents/domain-architect.md`
+- **UX/UI Design & Architecture** → `.opencode/agents/ux-ui-designer.md`
+- **Wireframe Design** → `.opencode/agents/wireframe-designer.md`
+- **Code Quality Review** → `.opencode/agents/code-reviewer.md`
 
 **How to use agents:**
 
@@ -112,6 +112,28 @@ Implement directly (typos, simple edits) - no session needed.
 - Example: **shadcn** (~4.7k tokens), **playwright** (~14k tokens)
 
 **Strategy**: Enable only what the current task needs in `.opencode/settings.local.json`
+
+## Available  Skills
+
+
+### Generic Skills (User Installation → ~/.claude/skills/)
+
+These skills are copied to user's Claude/OpenCode config via the installer.
+
+| Skill | Description | Source |
+|-------|-------------|--------|
+| `frontend-design` | Distinctive frontend designs, typography, color palettes, motion | [.opencode/skills/frontend-design](.opencode/skills/frontend-design/SKILL.md) |
+| `react-19` | React 19 patterns, React Compiler, no manual memoization | [.opencode/skills/react-19](.opencode/skills/react-19/SKILL.md) |
+| `typescript` | TypeScript strict patterns, types, interfaces, generics | [.opencode/skills/typescript](.opencode/skills/typescript/SKILL.md) |
+| `tailwind-4` | Tailwind CSS v4, cn(), theme variables, no var() in className | [.opencode/skills/tailwind-4](.opencode/skills/tailwind-4/SKILL.md) |
+| `zod-4` | Zod v4 schema validation, breaking changes from v3 | [.opencode/skills/zod-4](.opencode/skills/zod-4/SKILL.md) |
+
+## How Skills Work
+
+1. **Auto-detection**: Claude Code reads CLAUDE.md which contains skill triggers
+2. **Context matching**: When editing Go/TUI code, gentleman-bubbletea loads
+3. **Pattern application**: AI follows the exact patterns from the skill
+4. **First-time-correct**: No trial and error - skills provide exact conventions
 
 ## For Agents: Pre-Work Checklist
 

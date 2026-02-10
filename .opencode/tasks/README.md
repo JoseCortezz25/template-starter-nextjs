@@ -43,18 +43,18 @@ L **Skip sessions when**:
 
 **How**: Parent agent creates session file automatically
 
-**File Location**: `.claude/tasks/context-session-{id}.md`
+**File Location**: `.opencode/tasks/context-session-{id}.md`
 
 **Session ID Format**: `{feature-name}-{YYYYMMDD}` or `{uuid-short}`
 
 **Example**:
 
 ```
-.claude/tasks/context_session_workout-tracking-20250103.md
-.claude/tasks/context_session_auth-flow-a3f8.md
+.opencode/tasks/context_session_workout-tracking-20250103.md
+.opencode/tasks/context_session_auth-flow-a3f8.md
 ```
 
-**Initial Content**: Use template from `.claude/tasks/template/context-session-template.md`
+**Initial Content**: Use template from `.opencode/tasks/template/context-session-template.md`
 
 ### 2. Active Sessions
 
@@ -82,7 +82,7 @@ L **Skip sessions when**:
 
 **Final Entry**: Mark session as completed with summary
 
-**Archive**: Move to `.claude/tasks/archive/` after 30 days
+**Archive**: Move to `.opencode/tasks/archive/` after 30 days
 
 ### 4. Paused Sessions
 
@@ -121,7 +121,7 @@ L **Skip sessions when**:
 
 ### KV-Cache Optimization
 
-Claude uses a KV-cache (key-value cache) to speed up processing. When the beginning of a prompt stays the same (stable prefix), the cache can be reused, resulting in:
+OpenCode uses a KV-cache (key-value cache) to speed up processing. When the beginning of a prompt stays the same (stable prefix), the cache can be reused, resulting in:
 
 - � **Faster responses** (skip processing cached content)
 - =� **Lower costs** (cached tokens are cheaper)
@@ -202,7 +202,7 @@ Every entry MUST include:
 
 Include when relevant:
 
-- **Plan Location**: Path to plan file in `.claude/plans/`
+- **Plan Location**: Path to plan file in `.opencode/plans/`
 - **Files Created/Modified**: List of affected files
 - **Blockers**: What's preventing progress
 - **Coordination**: Which agents need to be invoked next
@@ -244,7 +244,7 @@ Include when relevant:
 
 **Status**:  Completed
 
-**Plan Location**: `.claude/plans/domain-workout-plan.md`
+**Plan Location**: `.opencode/plans/domain-workout-plan.md`
 
 **Key Decisions**:
 - Used Repository Pattern for data access (abstracts DB)
@@ -315,7 +315,7 @@ Include when relevant:
 
 **Creating Sessions**:
 1. Use descriptive session_id: `{feature}-{date}` or `{feature}-{uuid}`
-2. Start with template from `.claude/tasks/template/`
+2. Start with template from `.opencode/tasks/template/`
 3. Set clear objective (1-2 sentences)
 4. List related files that will be affected
 
@@ -334,7 +334,7 @@ Include when relevant:
 ### For Specialized Agents
 
 **Before Starting Work**:
-1. **ALWAYS read session context first** (`.claude/tasks/context_session_{id}.md`)
+1. **ALWAYS read session context first** (`.opencode/tasks/context_session_{id}.md`)
 2. Understand what's been done and why
 3. Check if your area was already planned
 4. Look for relevant decisions that affect your work
@@ -387,7 +387,7 @@ Next Steps: Launch domain-architect for business logic planning
 
 [2025-01-03 10:15] domain-architect: Auth Domain Design
 Status:  Completed
-Plan: .claude/plans/domain-auth-plan.md
+Plan: .opencode/plans/domain-auth-plan.md
 Key Decisions:
 - JWT tokens with refresh mechanism
 - Role-based permissions (user, admin)
@@ -398,7 +398,7 @@ Next Steps: UX designer for auth flow design
 
 [2025-01-03 10:45] ux-ui-designer: Auth UX Design
 Status:  Completed
-Plan: .claude/plans/ux-auth-plan.md
+Plan: .opencode/plans/ux-auth-plan.md
 Key Decisions:
 - Multi-step registration (email � password � profile)
 - Social login as secondary option
@@ -409,7 +409,7 @@ Next Steps: nextjs-builder for page routing
 
 [2025-01-03 11:20] nextjs-builder: Auth Pages Architecture
 Status:  Completed
-Plan: .claude/plans/nextjs-auth-plan.md
+Plan: .opencode/plans/nextjs-auth-plan.md
 Key Decisions:
 - Route group (auth) for shared layout
 - Server Components for pages, Client for forms
@@ -420,7 +420,7 @@ Next Steps: shadcn-builder for form components
 
 [2025-01-03 11:40] shadcn-builder: Auth Component Selection
 Status:  Completed
-Plan: .claude/plans/shadcn-auth-plan.md
+Plan: .opencode/plans/shadcn-auth-plan.md
 Components: button, input, form, card, alert
 Next Steps: Parent implements all plans
 
@@ -446,16 +446,42 @@ Session COMPLETED
 When agents depend on each other:
 
 ```
-domain-architect (business logic)
-    �
-ux-ui-designer (uses domain entities)
-    �
-nextjs-builder (uses UX design)
-    �
-shadcn-builder (uses Next.js requirements)
-    �
+business-analyst (ideation & requirements)
+    ↓
+domain-architect (business logic & entities)
+    ↓
+wireframe-designer (low-fidelity wireframes)
+    ↓
+ux-ui-designer (UX/UI design)
+    ↓
+nextjs-builder (pages & routing)
+    ↓
 parent-agent (implements everything)
+    ↓
+code-reviewer (quality review)
 ```
+
+**Session Entry Pattern**: Each agent documents what next agent needs
+
+### Sequential Agents (Layout Only / Maquetación)
+
+When the task is purely UI/layout—no business logic or domain entities:
+
+```
+wireframe-designer (low-fidelity wireframes)
+    ↓
+ux-ui-designer (UX/UI design)
+    ↓
+nextjs-builder (pages & routing)
+    ↓
+parent-agent (implements layout)
+    ↓
+code-reviewer (quality review)
+```
+
+**When to use**: Landing pages, marketing sites, static content, UI prototypes, design systems.
+
+**Skip**: business-analyst, domain-architect (no business logic needed)
 
 **Session Entry Pattern**: Each agent documents what next agent needs
 
@@ -503,14 +529,14 @@ Archive sessions after:
 
 ### How to Archive
 
-1. Move file: `.claude/tasks/` � `.claude/tasks/archive/{year}/`
+1. Move file: `.opencode/tasks/` � `.opencode/tasks/archive/{year}/`
 2. Keep filename: `context_session_{id}.md`
 3. Create archive index if needed
 
 ### Archive Structure
 
 ```
-.claude/tasks/
+.opencode/tasks/
    archive/
       2024/
          context_session_auth-20241201.md
@@ -575,14 +601,14 @@ Archive sessions after:
 Before starting work:
 
 - [ ] Session ID provided?
-- [ ] Read `.claude/tasks/context_session_{id}.md`?
+- [ ] Read `.opencode/tasks/context_session_{id}.md`?
 - [ ] Understand previous decisions?
 - [ ] Know which agents already ran?
 - [ ] Reviewed plans from other agents?
 
 After completing work:
 
-- [ ] Created plan in `.claude/plans/`?
+- [ ] Created plan in `.opencode/plans/`?
 - [ ] Appended entry to session (not overwrite)?
 - [ ] Entry follows template?
 - [ ] Entry is 300-500 tokens?
@@ -611,7 +637,7 @@ After completing work:
 
 ## Templates
 
-**Session Template**: `.claude/tasks/template/context-session-template.md`
+**Session Template**: `.opencode/tasks/template/context-session-template.md`
 
 **Entry Template**: See template file for full format
 

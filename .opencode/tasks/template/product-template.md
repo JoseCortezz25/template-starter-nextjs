@@ -16,7 +16,7 @@ This is an **example template** for your PROJECT.md or PRD.md file.
 1. Copy this file to `PROJECT.md` (or `PRD.md`)
 2. Remove `.example` extension
 3. Fill in all sections with your actual project details
-4. Use Claude Code to help generate sections if needed
+4. Use OpenCode to help generate sections if needed
 
 **Purpose**:
 
