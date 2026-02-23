@@ -22,12 +22,14 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 **Agents in this project:**
 
+- **Project Knowledge & Context** → `.opencode/agents/project-consultant.md`
 - **Business Analysis & Ideation** → `.opencode/agents/business-analyst.md`
 - **Next.js 15 & App Router Architecture** → `.opencode/agents/nextjs-builder.md`
 - **Domain Business Logic & Entities** → `.opencode/agents/domain-architect.md`
 - **UX/UI Design & Architecture** → `.opencode/agents/ux-ui-designer.md`
 - **Wireframe Design** → `.opencode/agents/wireframe-designer.md`
 - **Code Quality Review** → `.opencode/agents/code-reviewer.md`
+- **Code Audit** → `.opencode/agents/code-audit.md`
 
 **How to use agents:**
 
@@ -105,18 +107,18 @@ Implement directly (typos, simple edits) - no session needed.
 
 ## MCP Configuration
 
-**Available MCP Servers**: Defined in `.mcp.json`
+**Available MCP Servers**: Defined in `opencode.json`
 
-<!-- List your MCP servers with token counts -->
+- **shadcn** (~4.7k tokens) — componentes, registros, ejemplos shadcn/ui
+- **playwright** (~14k tokens) — automatización de navegador, pruebas E2E
+- **chrome-devtools** — inspección, snapshots, performance, DevTools
+- **Figma Desktop** — diseño, contexto de Figma, screenshots, variables
 
-- Example: **shadcn** (~4.7k tokens), **playwright** (~14k tokens)
-
-**Strategy**: Enable only what the current task needs in `.opencode/settings.local.json`
+**Strategy**: Enable only what the current task needs in `opencode.json`
 
 ## Available  Skills
 
-
-### Generic Skills (User Installation → ~/.claude/skills/)
+### Generic Skills (User Installation → ~/.opencode/skills/)
 
 These skills are copied to user's Claude/OpenCode config via the installer.
 
@@ -145,6 +147,7 @@ Before starting work:
 - [ ] Know which MCP tools I have access to?
 - [ ] Will append to session context (not overwrite)?
 - [ ] Will create plan in `.opencode/plans/` (not implement directly)?
+- [ ] If there is information that replaces or modifies the knowledge, run the `project-consultant` agent to update the files involved in `.opencode/knowledge/`.
 
 If any ❌, STOP and review documentation.
 

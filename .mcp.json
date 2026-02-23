@@ -1,5 +1,13 @@
 {
   "mcpServers": {
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest"
+      ],
+      "env": {}
+    },
     "shadcn": {
       "command": "npx",
       "args": ["shadcn@latest", "mcp"]
@@ -7,6 +15,9 @@
     "playwright": {
       "command": "npx",
       "args": ["@playwright/mcp@latest"]
+    },
+    "Figma Desktop": {
+      "url": "http://127.0.0.1:3845/mcp"
     }
   }
 }

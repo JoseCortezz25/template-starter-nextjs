@@ -9,7 +9,7 @@
 
 **A production-ready Next.js 15 starter template with TypeScript, Tailwind CSS v4, shadcn/ui, and modern architecture patterns.**
 
-[Quick Start](#-quick-start) • [Features](#-features) • [Architecture](#-architecture) • [Tech Stack](#-tech-stack) • [Documentation](#-documentation)
+[Quick Start](#-quick-start) • [Features](#-features) • [Architecture](#-architecture) • [Tech Stack](#-tech-stack) • [AI-Assisted Development](#-ai-assisted-development) • [Documentation](#-documentation)
 
 </div>
 
@@ -26,6 +26,8 @@
 - [Available Scripts](#-available-scripts)
 - [Code Standards](#-code-standards)
 - [Development Workflow](#-development-workflow)
+- [AI-Assisted Development](#-ai-assisted-development)
+- [Documentation](#-documentation)
 - [Contributing](#-contributing)
 
 ---
@@ -594,6 +596,49 @@ Before each commit:
 3. **Prettier** formats the code
 4. **ESLint** checks for errors
 5. If everything passes, the commit proceeds
+
+---
+
+## 🤖 AI-Assisted Development
+
+This project includes a complete setup for coding with AI assistance using **OpenCode** or **Claude Code**. The configuration provides project context, MCPs (Model Context Protocol), specialized skills, and custom commands to maximize productivity with AI tools.
+
+### Available MCPs (4)
+
+| MCP | Functionality |
+|-----|---------------|
+| **shadcn** | Components, registries, and examples for shadcn/ui. Component search, usage examples, and commands to add components to the project. |
+| **playwright** | Browser automation and E2E testing. Page navigation, interaction, snapshot capture, and test flow execution. |
+| **chrome-devtools** | Page inspection, accessibility snapshots, performance analysis, and integrated DevTools. |
+| **Figma Desktop** | Design context from Figma, screenshots, design variables, and code generation from designs. Requires Figma Desktop app to be open. |
+
+**Configuration**: MCPs are defined in `.mcp.json` (Claude Code) and `opencode.json` (OpenCode). Enable only the ones you need for each task.
+
+### Available Skills (5)
+
+| Skill | Functionality |
+|-------|---------------|
+| **frontend-design** | Distinctive frontend designs, typography, color palettes, atmospheric backgrounds, and well-orchestrated motion. Avoids generic aesthetics. |
+| **react-19** | React 19 patterns with React Compiler. No manual useMemo/useCallback needed. |
+| **typescript** | Strict TypeScript patterns, types, interfaces, and generics. |
+| **tailwind-4** | Tailwind CSS v4 patterns, `cn()`, theme variables. Do not use `var()` in className. |
+| **zod-4** | Zod v4 schema validation and breaking changes from v3. |
+
+**Location**: `.claude/skills/` (Claude) and `.opencode/skills/` (OpenCode). Skills are loaded automatically based on editing context.
+
+### Available Commands
+
+| Command | Description |
+|---------|-------------|
+| **ui-to-json** | Generates structured JSON prompts for Vibe Coding (V0, etc.) from wireframes or interface descriptions. Includes sections for context, objective, constraints, aesthetics, and output format. |
+
+**Location**: `.claude/commands/` (Claude Code) and `.opencode/commands/` (OpenCode).
+
+### AI Documentation
+
+- **[CLAUDE.md](./CLAUDE.md)** — Project context for Claude Code
+- **[AGENTS.md](./AGENTS.md)** — Project context for OpenCode
+- **[Critical Constraints](./.claude/knowledge/critical-constraints.md)** — Non-negotiable architectural rules
 
 ---
 
