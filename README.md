@@ -614,7 +614,7 @@ This project includes a complete setup for coding with AI assistance using **Ope
 
 **Configuration**: MCPs are defined in `.mcp.json` (Claude Code) and `opencode.json` (OpenCode). Enable only the ones you need for each task.
 
-### Available Skills (5)
+### Available Skills (7)
 
 | Skill | Functionality |
 |-------|---------------|
@@ -623,6 +623,8 @@ This project includes a complete setup for coding with AI assistance using **Ope
 | **typescript** | Strict TypeScript patterns, types, interfaces, and generics. |
 | **tailwind-4** | Tailwind CSS v4 patterns, `cn()`, theme variables. Do not use `var()` in className. |
 | **zod-4** | Zod v4 schema validation and breaking changes from v3. |
+| **atomic-design** | Guide for creating, componentizing, and refactoring UI components following Atomic Design principles. Triggers when building, splitting, or refactoring components. |
+| **commit-conventions** | Enforces project-specific Git commit message conventions compatible with commitlint and pre-commit hooks. |
 
 **Location**: `.claude/skills/` (Claude) and `.opencode/skills/` (OpenCode). Skills are loaded automatically based on editing context.
 
