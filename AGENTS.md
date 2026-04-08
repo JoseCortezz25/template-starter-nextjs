@@ -116,6 +116,21 @@ Implement directly (typos, simple edits) - no session needed.
 
 **Strategy**: Enable only what the current task needs in `opencode.json`
 
+## Coding Rules
+
+**Auto-applied rules** (based on file paths) in `.opencode/rules/`:
+
+| Rule | Applies to | Description |
+|------|------------|-------------|
+| `code-quality.md` | `src/**/*.{ts,tsx}` | ESLint conventions, TypeScript strictness, no `any` |
+| `naming-conventions.md` | `src/**/*.{ts,tsx}` | kebab-case files, PascalCase components, suffixes |
+| `folder-structure.md` | `src/**/*.{ts,tsx}` | Screaming Architecture + Atomic Design layout |
+| `text-management.md` | `src/**/*.{ts,tsx}` | Domain messages, no hardcoded strings |
+| `styling.md` | `src/**/*.{ts,tsx}` | Tailwind + `@apply`, mobile-first, no inline styles |
+| `project-characteristics.md` | `src/**/*.{ts,tsx}` | RSC-first, Zustand, nuqs, Server Actions |
+| `document-component-storybook.md` | `src/**/*.{ts,tsx}` | Storybook story structure aligned with Figma |
+| `migration-rules.md` | — | Pre-flight checklist, no barrel files, layer rules |
+
 ## Available  Skills
 
 ### Generic Skills (User Installation → ~/.opencode/skills/)
