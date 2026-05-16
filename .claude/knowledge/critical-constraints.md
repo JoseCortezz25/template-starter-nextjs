@@ -393,43 +393,6 @@ export function RegisterForm() {
 }
 ```
 
-### Simple Forms (Server Actions)
-
-Use **useActionState** and **useFormStatus** for simple forms with basic fields and server-side validation.
-
-```tsx
-// domains/auth/actions.ts
-'use server';
-export async function loginAction(prevState, formData: FormData) {
-  const email = formData.get('email');
-  // Validation and logic...
-  return { success: true, message: 'Login successful' };
-}
-
-// domains/auth/components/login-form.tsx
-('use client');
-import { useActionState } from 'react';
-import { useFormStatus } from 'react-dom';
-import { loginAction } from '../actions';
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return <button disabled={pending}>{pending ? 'Loading...' : 'Login'}</button>;
-}
-
-export function LoginForm() {
-  const [state, formAction] = useActionState(loginAction, null);
-
-  return (
-    <form action={formAction}>
-      <input name="email" type="email" />
-      <SubmitButton />
-      {state?.message && <p>{state.message}</p>}
-    </form>
-  );
-}
-```
-
 ---
 
 ## 10. Styles: Tailwind + @apply for repetition

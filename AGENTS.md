@@ -8,6 +8,17 @@ This is a Next.js 15 application using React 19, TypeScript, and Tailwind CSS v4
 
 **Tech Stack**: Next 15, React 19, TailwindCSS v4, shadcn/ui, TypeScript, zod, React Hook Form
 
+## General Rules
+
+- **Styling**: Use Tailwind CSS with `@apply` for component styles — no inline styles, no arbitrary values unless strictly necessary.
+- **Naming**: BEM methodology for class names. Keep names short and descriptive — avoid deeply nested chains like `block__element--modifier--state`.
+- **Component structure**: Atomic Design — atoms, molecules, organisms, templates. Components are dumb and presentational; logic lives in hooks.
+- **Architecture**: Domain Driven Design — each domain is self-contained with its own components, hooks, stores, schemas, and messages. No cross-domain imports.
+- **Forms**: Always use React Hook Form + Zod. Schemas in `.schema.ts` files; one schema per file.
+- **Conditional classes**: Always use the `cn()` utility for conditional or merged class names — never string interpolation (`\`class-${var}\``).
+
+> Full non-negotiable constraints → `.opencode/knowledge/critical-constraints.md`
+
 ## 🔴 CRITICAL - READ FIRST
 
 **BEFORE doing anything else**, you MUST read:
@@ -120,30 +131,30 @@ Implement directly (typos, simple edits) - no session needed.
 
 **Auto-applied rules** (based on file paths) in `.opencode/rules/`:
 
-| Rule | Applies to | Description |
-|------|------------|-------------|
-| `code-quality.md` | `src/**/*.{ts,tsx}` | ESLint conventions, TypeScript strictness, no `any` |
-| `naming-conventions.md` | `src/**/*.{ts,tsx}` | kebab-case files, PascalCase components, suffixes |
-| `folder-structure.md` | `src/**/*.{ts,tsx}` | Screaming Architecture + Atomic Design layout |
-| `text-management.md` | `src/**/*.{ts,tsx}` | Domain messages, no hardcoded strings |
-| `styling.md` | `src/**/*.{ts,tsx}` | Tailwind + `@apply`, mobile-first, no inline styles |
-| `project-characteristics.md` | `src/**/*.{ts,tsx}` | RSC-first, Zustand, nuqs, Server Actions |
-| `document-component-storybook.md` | `src/**/*.{ts,tsx}` | Storybook story structure aligned with Figma |
-| `migration-rules.md` | — | Pre-flight checklist, no barrel files, layer rules |
+| Rule                              | Applies to          | Description                                         |
+| --------------------------------- | ------------------- | --------------------------------------------------- |
+| `code-quality.md`                 | `src/**/*.{ts,tsx}` | ESLint conventions, TypeScript strictness, no `any` |
+| `naming-conventions.md`           | `src/**/*.{ts,tsx}` | kebab-case files, PascalCase components, suffixes   |
+| `folder-structure.md`             | `src/**/*.{ts,tsx}` | Screaming Architecture + Atomic Design layout       |
+| `text-management.md`              | `src/**/*.{ts,tsx}` | Domain messages, no hardcoded strings               |
+| `styling.md`                      | `src/**/*.{ts,tsx}` | Tailwind + `@apply`, mobile-first, no inline styles |
+| `project-characteristics.md`      | `src/**/*.{ts,tsx}` | RSC-first, Zustand, nuqs, Server Actions            |
+| `document-component-storybook.md` | `src/**/*.{ts,tsx}` | Storybook story structure aligned with Figma        |
+| `migration-rules.md`              | —                   | Pre-flight checklist, no barrel files, layer rules  |
 
-## Available  Skills
+## Available Skills
 
 ### Generic Skills (User Installation → ~/.opencode/skills/)
 
 These skills are copied to user's Claude/OpenCode config via the installer.
 
-| Skill | Description | Source |
-|-------|-------------|--------|
+| Skill             | Description                                                      | Source                                                                        |
+| ----------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------- |
 | `frontend-design` | Distinctive frontend designs, typography, color palettes, motion | [.opencode/skills/frontend-design](.opencode/skills/frontend-design/SKILL.md) |
-| `react-19` | React 19 patterns, React Compiler, no manual memoization | [.opencode/skills/react-19](.opencode/skills/react-19/SKILL.md) |
-| `typescript` | TypeScript strict patterns, types, interfaces, generics | [.opencode/skills/typescript](.opencode/skills/typescript/SKILL.md) |
-| `tailwind-4` | Tailwind CSS v4, cn(), theme variables, no var() in className | [.opencode/skills/tailwind-4](.opencode/skills/tailwind-4/SKILL.md) |
-| `zod-4` | Zod v4 schema validation, breaking changes from v3 | [.opencode/skills/zod-4](.opencode/skills/zod-4/SKILL.md) |
+| `react-19`        | React 19 patterns, React Compiler, no manual memoization         | [.opencode/skills/react-19](.opencode/skills/react-19/SKILL.md)               |
+| `typescript`      | TypeScript strict patterns, types, interfaces, generics          | [.opencode/skills/typescript](.opencode/skills/typescript/SKILL.md)           |
+| `tailwind-4`      | Tailwind CSS v4, cn(), theme variables, no var() in className    | [.opencode/skills/tailwind-4](.opencode/skills/tailwind-4/SKILL.md)           |
+| `zod-4`           | Zod v4 schema validation, breaking changes from v3               | [.opencode/skills/zod-4](.opencode/skills/zod-4/SKILL.md)                     |
 
 ## How Skills Work
 
