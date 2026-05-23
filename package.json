@@ -18,7 +18,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@ajosecortes/guardian-cli": "^1.2.0",
+    "@ajosecortes/guardian-cli": "^1.2.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@radix-ui/react-select": "^2.2.5",
     "@radix-ui/react-slot": "^1.2.3",
