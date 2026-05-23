@@ -18,6 +18,7 @@ This is a Next.js 15 application using React 19, TypeScript, and Tailwind CSS v4
 - **Conditional classes**: Always use the `cn()` utility for conditional or merged class names — never string interpolation (`\`class-${var}\``).
 
 > Full non-negotiable constraints → `.claude/knowledge/critical-constraints.md`
+> Full rules of project → `.opclaudeencode/rules/*.md`
 
 ## 🔴 CRITICAL - READ FIRST
 
@@ -39,6 +40,7 @@ This document contains non-negotiable architectural rules. Violating these rules
 - **UX/UI Design & Architecture** → `.claude/agents/ux-ui-designer.md`
 - **Wireframe Design** → `.claude/agents/wireframe-designer.md`
 - **Code Quality Review** → `.claude/agents/code-reviewer.md`
+- **Doc Gardener** → `.claude/agents/doc-gardener.md`
 
 **How to use agents:**
 

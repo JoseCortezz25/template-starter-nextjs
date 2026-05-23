@@ -21,5 +21,10 @@
       "url": "http://127.0.0.1:3845/mcp",
       "enabled": true
     }
+  },
+  "formatter": {
+    "prettier": {
+      "command": ["npx", "prettier", "--write", "$FILE"]
+    }
   }
 }

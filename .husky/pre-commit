@@ -1,1 +1,4 @@
 ./node_modules/.bin/lint-staged
+# >>> guardian start >>>
+npx guardian run || exit 1
+# <<< guardian end <<<

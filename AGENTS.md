@@ -18,6 +18,7 @@ This is a Next.js 15 application using React 19, TypeScript, and Tailwind CSS v4
 - **Conditional classes**: Always use the `cn()` utility for conditional or merged class names — never string interpolation (`\`class-${var}\``).
 
 > Full non-negotiable constraints → `.opencode/knowledge/critical-constraints.md`
+> Full rules of project → `.opencode/rules/*.md`
 
 ## 🔴 CRITICAL - READ FIRST
 
@@ -41,6 +42,7 @@ This document contains non-negotiable architectural rules. Violating these rules
 - **Wireframe Design** → `.opencode/agents/wireframe-designer.md`
 - **Code Quality Review** → `.opencode/agents/code-reviewer.md`
 - **Code Audit** → `.opencode/agents/code-audit.md`
+- **Doc Gardener** → `.opencode/agents/doc-gardener.md`
 
 **How to use agents:**
 
