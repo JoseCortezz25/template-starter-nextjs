@@ -45,38 +45,23 @@ This document contains non-negotiable architectural rules. Violating these rules
 **How to use agents:**
 
 - Read the agent file to understand its role and capabilities
-- Use the Task tool to invoke: `Launch {agent-name} with session_id="{id}" to {task}`
+- Use the Task tool to invoke: `Launch {agent-name} to {task}`
 - Agent creates plan in `.claude/plans/`, then you execute it
 
 ## Workflow Protocol
 
-### For New Features (Automatic Orchestration)
+### For New Features
 
-**Parent Agent Process:**
+**Process:**
 
 0. **Resolve domains** — follow `.claude/rules/workflow-init.md` before touching `src/domains/`
-1. **Create session file** automatically with unique session_id
-2. **Analyze task** and determine which specialized agents are needed
-3. **Invoke specialized agents** to create implementation plans
-4. **Execute plans** step-by-step
-5. **Update session context** after each phase (append-only)
-
-**Session files**: `.claude/tasks/context_session_{id}.md` (append-only logs)
+1. **Analyze task** and determine which specialized agents are needed
+2. **Invoke specialized agents** to create implementation plans
+3. **Execute plans** step-by-step
 
 ### For Trivial Changes
 
-Implement directly (typos, simple edits) - no session needed.
-
-## Session Context Protocol
-
-**When session_id is provided:**
-
-1. Read `.claude/tasks/context_session_{id}.md` FIRST
-2. Understand previous decisions and progress
-3. Continue from where previous work left off
-4. **Append** your entry at the end (NEVER overwrite)
-
-**Entry format**: See `.claude/tasks/README.md` for full protocol.
+Implement directly (typos, simple edits).
 
 ## Documentation Map
 
@@ -84,11 +69,7 @@ Implement directly (typos, simple edits) - no session needed.
 
 ### Always Read First
 
-- `.claude/knowledge/critical-constraints.md`- Non-negotiable rules
-
-### Read If Session Exists
-
-- `.claude/tasks/context_session_{id}.md` - Session history
+- `.claude/knowledge/critical-constraints.md` — Non-negotiable rules
 
 ### Load As Needed (Use Grep for sections)
 
@@ -115,7 +96,6 @@ Implement directly (typos, simple edits) - no session needed.
 - Externalize all text to text maps (no hardcoded strings)
 - Follow architecture dependency rules strictly
 - Agents create plans, parent executes
-- Session context is append-only (never overwrite)
 
 ## MCP Configuration
 
@@ -175,10 +155,8 @@ Before starting work:
 
 **Foundation** (always required)
 - [ ] Read `.claude/knowledge/critical-constraints.md`?
-- [ ] Read session context if `session_id` provided?
 - [ ] Understand my role (check `.claude/agents/{my-name}.md` if specialized agent)?
 - [ ] Know which MCP tools I have access to?
-- [ ] Will append to session context (not overwrite)?
 - [ ] Will create plan in `.claude/plans/` (not implement directly)?
 - [ ] If there is information that replaces or modifies the knowledge, run the `project-consult` agent to update the files involved in `.claude/knowledge/`.
 
