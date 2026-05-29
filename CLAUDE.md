@@ -54,6 +54,7 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 **Parent Agent Process:**
 
+0. **Resolve domains** — follow `.claude/rules/workflow-init.md` before touching `src/domains/`
 1. **Create session file** automatically with unique session_id
 2. **Analyze task** and determine which specialized agents are needed
 3. **Invoke specialized agents** to create implementation plans
@@ -141,6 +142,7 @@ Implement directly (typos, simple edits) - no session needed.
 | `project-characteristics.md`      | `src/**/*.{ts,tsx}` | RSC-first, Zustand, nuqs, Server Actions            |
 | `document-component-storybook.md` | `src/**/*.{ts,tsx}` | Storybook story structure aligned with Figma        |
 | `migration-rules.md`              | —                   | Pre-flight checklist, no barrel files, layer rules  |
+| `workflow-init.md`                | `src/domains/**`    | Domain gate — resolve domain-map.md before coding   |
 
 ## General instructions
 
@@ -171,6 +173,7 @@ These skills are copied to user's Claude/OpenCode config via the installer.
 
 Before starting work:
 
+**Foundation** (always required)
 - [ ] Read `.claude/knowledge/critical-constraints.md`?
 - [ ] Read session context if `session_id` provided?
 - [ ] Understand my role (check `.claude/agents/{my-name}.md` if specialized agent)?
@@ -178,6 +181,11 @@ Before starting work:
 - [ ] Will append to session context (not overwrite)?
 - [ ] Will create plan in `.claude/plans/` (not implement directly)?
 - [ ] If there is information that replaces or modifies the knowledge, run the `project-consult` agent to update the files involved in `.claude/knowledge/`.
+
+**Domain** (blocking — required before any `src/domains/` work)
+- [ ] Does `.claude/knowledge/domain-map.md` exist? If not, follow `.claude/rules/workflow-init.md` Steps 2–3 first.
+- [ ] Does the target domain appear in `domain-map.md`?
+- [ ] Can I answer: "This file belongs to `{domain}` because it implements `{use-case}` owned by that domain"?
 
 If any ❌, STOP and review documentation.
 
