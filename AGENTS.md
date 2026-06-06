@@ -1,4 +1,4 @@
-# OPENCODE.md: Project Context for AI Agents
+# OPENCODE.md
 
 This file provides guidance to Opencode when working with code in this repository.
 
@@ -52,33 +52,6 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 ## Workflow Protocol
 
-### For New Features (Automatic Orchestration)
-
-**Parent Agent Process:**
-
-1. **Create session file** automatically with unique session_id
-2. **Analyze task** and determine which specialized agents are needed
-3. **Invoke specialized agents** to create implementation plans
-4. **Execute plans** step-by-step
-5. **Update session context** after each phase (append-only)
-
-**Session files**: `.opencode/tasks/context_session_{id}.md` (append-only logs)
-
-### For Trivial Changes
-
-Implement directly (typos, simple edits) - no session needed.
-
-## Session Context Protocol
-
-**When session_id is provided:**
-
-1. Read `.opencode/tasks/context_session_{id}.md` FIRST
-2. Understand previous decisions and progress
-3. Continue from where previous work left off
-4. **Append** your entry at the end (NEVER overwrite)
-
-**Entry format**: See `.opencode/tasks/README.md` for full protocol.
-
 ## Documentation Map
 
 **Load strategically - don't read everything upfront!**
@@ -86,10 +59,6 @@ Implement directly (typos, simple edits) - no session needed.
 ### Always Read First
 
 - `.opencode/knowledge/critical-constraints.md`- Non-negotiable rules
-
-### Read If Session Exists
-
-- `.opencode/tasks/context_session_{id}.md` - Session history
 
 ### Load As Needed (Use Grep for sections)
 
@@ -133,22 +102,23 @@ Implement directly (typos, simple edits) - no session needed.
 
 **Auto-applied rules** (based on file paths) in `.opencode/rules/`:
 
-| Rule                              | Applies to          | Description                                         |
-| --------------------------------- | ------------------- | --------------------------------------------------- |
-| `code-quality.md`                 | `src/**/*.{ts,tsx}` | ESLint conventions, TypeScript strictness, no `any` |
-| `naming-conventions.md`           | `src/**/*.{ts,tsx}` | kebab-case files, PascalCase components, suffixes   |
-| `folder-structure.md`             | `src/**/*.{ts,tsx}` | Screaming Architecture + Atomic Design layout       |
-| `text-management.md`              | `src/**/*.{ts,tsx}` | Domain messages, no hardcoded strings               |
-| `styling.md`                      | `src/**/*.{ts,tsx}` | Tailwind + `@apply`, mobile-first, no inline styles |
-| `project-characteristics.md`      | `src/**/*.{ts,tsx}` | RSC-first, Zustand, nuqs, Server Actions            |
-| `document-component-storybook.md` | `src/**/*.{ts,tsx}` | Storybook story structure aligned with Figma        |
-| `migration-rules.md`              | —                   | Pre-flight checklist, no barrel files, layer rules  |
+| Rule                              | Applies to                  | Description                                                               |
+| --------------------------------- | --------------------------- | ------------------------------------------------------------------------- |
+| `code-quality.md`                 | `src/**/*.{ts,tsx}`         | ESLint conventions, TypeScript strictness, no `any`                       |
+| `naming-conventions.md`           | `src/**/*.{ts,tsx}`         | kebab-case files, PascalCase components, suffixes                         |
+| `folder-structure.md`             | `src/**/*.{ts,tsx}`         | Screaming Architecture + Atomic Design layout                             |
+| `text-management.md`              | `src/**/*.{ts,tsx}`         | Domain messages, no hardcoded strings                                     |
+| `styling.md`                      | `src/**/*.{ts,tsx}`         | Tailwind + `@apply`, mobile-first, no inline styles                       |
+| `project-characteristics.md`      | `src/**/*.{ts,tsx}`         | RSC-first, Zustand, nuqs, Server Actions                                  |
+| `document-component-storybook.md` | `src/**/*.{ts,tsx}`         | Storybook story structure aligned with Figma                              |
+| `ddd-domain-structure.md`         | `src/domains/**/*.{ts,tsx}` | DDD domain anatomy: components, hooks, stores, actions, schemas, messages |
+| `forms.md`                        | `src/**/*.{ts,tsx}`         | React Hook Form + Zod obligatorio, schema por archivo, hook por formulario |
 
 ## Available Skills
 
 ### Generic Skills (User Installation → ~/.opencode/skills/)
 
-These skills are copied to user's Claude/OpenCode config via the installer.
+These skills are copied to user's OpenCode config via the installer.
 
 | Skill             | Description                                                      | Source                                                                        |
 | ----------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------- |
@@ -160,7 +130,7 @@ These skills are copied to user's Claude/OpenCode config via the installer.
 
 ## How Skills Work
 
-1. **Auto-detection**: Claude Code reads CLAUDE.md which contains skill triggers
+1. **Auto-detection**: Open Code reads AGENTS.md which contains skill triggers
 2. **Context matching**: When editing Go/TUI code, gentleman-bubbletea loads
 3. **Pattern application**: AI follows the exact patterns from the skill
 4. **First-time-correct**: No trial and error - skills provide exact conventions
@@ -170,13 +140,8 @@ These skills are copied to user's Claude/OpenCode config via the installer.
 Before starting work:
 
 - [ ] Read `.opencode/knowledge/critical-constraints.md`?
-- [ ] Read session context if `session_id` provided?
 - [ ] Understand my role (check `.opencode/agents/{my-name}.md` if specialized agent)?
 - [ ] Know which MCP tools I have access to?
-- [ ] Will append to session context (not overwrite)?
-- [ ] Will create plan in `.opencode/plans/` (not implement directly)?
 - [ ] If there is information that replaces or modifies the knowledge, run the `project-consultant` agent to update the files involved in `.opencode/knowledge/`.
 
 If any ❌, STOP and review documentation.
-
-**Token Budget Goal**: ~400-500 tokens for this file. All details are in `.opencode/knowledge/` docs.

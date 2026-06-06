@@ -4,7 +4,7 @@ paths: src/**/*.{ts,tsx}
 
 # Naming Conventions
 
-Standardized nomenclature is fundamental to maintaining architectural consistency within this project. This document establishes the mandatory conventions that must be followed in all files, components, functions, and data structures.
+Standardized nomenclature is fundamental to maintaining architectural consistency within the application. This document establishes the mandatory conventions that must be followed in all files, components, functions, and data structures.
 
 ## Files and Directories
 
@@ -62,8 +62,6 @@ Services that encapsulate business logic or external API interactions must use t
 ### Utility Files
 
 Pure auxiliary functions without side effects should be placed in files with the `.util.ts` suffix.
-
-If a utility file becomes too large or covers too many different responsibilities, it is worth splitting it into smaller files using the specific naming examples provided (e.g., `color.util.ts`, `format.util.ts`).
 
 - **Valid**: `color.util.ts`, `serialization.util.ts`, `format.util.ts`
 - **Incorrect**: `colorUtils.ts`, `utils-color.ts`
