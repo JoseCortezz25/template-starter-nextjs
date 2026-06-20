@@ -52,6 +52,23 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 ## Workflow Protocol
 
+### Agent Process
+
+1. **Analyze task** and determine which specialized agents are needed
+2. **Invoke specialized agents** to create implementation plans
+3. **Execute plans** step-by-step
+4. **Run Guardian** after each implementation to verify code culture alignment
+
+### Guardian — Code Culture Verification
+
+After every implementation (feature, fix, or refactor), run:
+
+```bash
+guardian run
+```
+
+Guardian reads `RULES.md` and validates that the implemented code follows the team's cultural conventions. Do not consider an implementation complete until Guardian passes or all violations are explicitly acknowledged.
+
 ## Documentation Map
 
 **Load strategically - don't read everything upfront!**
@@ -102,31 +119,38 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 **Auto-applied rules** (based on file paths) in `.opencode/rules/`:
 
-| Rule                              | Applies to                  | Description                                                               |
-| --------------------------------- | --------------------------- | ------------------------------------------------------------------------- |
-| `code-quality.md`                 | `src/**/*.{ts,tsx}`         | ESLint conventions, TypeScript strictness, no `any`                       |
-| `naming-conventions.md`           | `src/**/*.{ts,tsx}`         | kebab-case files, PascalCase components, suffixes                         |
-| `folder-structure.md`             | `src/**/*.{ts,tsx}`         | Screaming Architecture + Atomic Design layout                             |
-| `text-management.md`              | `src/**/*.{ts,tsx}`         | Domain messages, no hardcoded strings                                     |
-| `styling.md`                      | `src/**/*.{ts,tsx}`         | Tailwind + `@apply`, mobile-first, no inline styles                       |
-| `project-characteristics.md`      | `src/**/*.{ts,tsx}`         | RSC-first, Zustand, nuqs, Server Actions                                  |
-| `document-component-storybook.md` | `src/**/*.{ts,tsx}`         | Storybook story structure aligned with Figma                              |
-| `ddd-domain-structure.md`         | `src/domains/**/*.{ts,tsx}` | DDD domain anatomy: components, hooks, stores, actions, schemas, messages |
-| `forms.md`                        | `src/**/*.{ts,tsx}`         | React Hook Form + Zod obligatorio, schema por archivo, hook por formulario |
+| Rule                              | Applies to                  | Description                                                                 |
+| --------------------------------- | --------------------------- | --------------------------------------------------------------------------- |
+| `code-quality.md`                 | `src/**/*.{ts,tsx}`         | ESLint conventions, TypeScript strictness, no `any`                         |
+| `naming-conventions.md`           | `src/**/*.{ts,tsx}`         | kebab-case files, PascalCase components, suffixes                           |
+| `folder-structure.md`             | `src/**/*.{ts,tsx}`         | Screaming Architecture + Atomic Design layout                               |
+| `text-management.md`              | `src/**/*.{ts,tsx}`         | Domain messages, no hardcoded strings                                       |
+| `styling.md`                      | `src/**/*.{ts,tsx}`         | Tailwind + `@apply`, mobile-first, no inline styles                         |
+| `project-characteristics.md`      | `src/**/*.{ts,tsx}`         | RSC-first, Zustand, nuqs, Server Actions                                    |
+| `document-component-storybook.md` | `src/**/*.{ts,tsx}`         | Storybook story structure aligned with Figma                                |
+| `ddd-domain-structure.md`         | `src/domains/**/*.{ts,tsx}` | DDD domain anatomy: components, hooks, stores, actions, schemas, messages   |
+| `forms.md`                        | `src/**/*.{ts,tsx}`         | React Hook Form + Zod obligatorio, schema por archivo, hook por formulario  |
+| `naming-language.md`              | `src/**/*.{ts,tsx}`         | English-only identifiers — no Spanish names except non-generic domain terms |
 
 ## Available Skills
 
-### Generic Skills (User Installation → ~/.opencode/skills/)
+### Skills
 
-These skills are copied to user's OpenCode config via the installer.
+Canonical source: `AGENTS/` (root). `.claude/skills` and `.opencode/skills` are symlinks to it.
 
-| Skill             | Description                                                      | Source                                                                        |
-| ----------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `frontend-design` | Distinctive frontend designs, typography, color palettes, motion | [.opencode/skills/frontend-design](.opencode/skills/frontend-design/SKILL.md) |
-| `react-19`        | React 19 patterns, React Compiler, no manual memoization         | [.opencode/skills/react-19](.opencode/skills/react-19/SKILL.md)               |
-| `typescript`      | TypeScript strict patterns, types, interfaces, generics          | [.opencode/skills/typescript](.opencode/skills/typescript/SKILL.md)           |
-| `tailwind-4`      | Tailwind CSS v4, cn(), theme variables, no var() in className    | [.opencode/skills/tailwind-4](.opencode/skills/tailwind-4/SKILL.md)           |
-| `zod-4`           | Zod v4 schema validation, breaking changes from v3               | [.opencode/skills/zod-4](.opencode/skills/zod-4/SKILL.md)                     |
+| Skill                                | Description                                                                                  | Source                                                                                                              |
+| ------------------------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `frontend-design`                    | Distinctive frontend designs, typography, color palettes, motion                             | [.opencode/skills/frontend-design](.opencode/skills/frontend-design/SKILL.md)                                       |
+| `react-19`                           | React 19 patterns, React Compiler, no manual memoization                                     | [.opencode/skills/react-19](.opencode/skills/react-19/SKILL.md)                                                     |
+| `typescript`                         | TypeScript strict patterns, types, interfaces, generics                                      | [.opencode/skills/typescript](.opencode/skills/typescript/SKILL.md)                                                 |
+| `tailwind-4`                         | Tailwind CSS v4, cn(), theme variables, no var() in className                                | [.opencode/skills/tailwind-4](.opencode/skills/tailwind-4/SKILL.md)                                                 |
+| `zod-4`                              | Zod v4 schema validation, breaking changes from v3                                           | [.opencode/skills/zod-4](.opencode/skills/zod-4/SKILL.md)                                                           |
+| `grill-me`                           | Interview the user relentlessly about a plan or design until reaching shared understanding   | [.opencode/skills/grill-me](.opencode/skills/grill-me/SKILL.md)                                                     |
+| `thermo-nuclear-code-quality-review` | Extremely strict maintainability review — abstraction quality, giant files, spaghetti growth | [.opencode/skills/thermo-nuclear-code-quality-review](.opencode/skills/thermo-nuclear-code-quality-review/SKILL.md) |
+| `commit-conventions`                 | Enforce project-specific Git commit message conventions compatible with commitlint           | [.opencode/skills/commit-conventions](.opencode/skills/commit-conventions/SKILL.md)                                 |
+| `atomic-design`                      | Guide for creating, componentizing, and refactoring UI components following Atomic Design    | [.opencode/skills/atomic-design](.opencode/skills/atomic-design/SKILL.md)                                           |
+| `forms`                              | Forms with React Hook Form + Zod — schema, hook, component, and Server Action patterns       | [.opencode/skills/forms](.opencode/skills/forms/SKILL.md)                                                           |
+| `naming-language`                    | English-only identifiers — detect and fix Spanish names with narrow domain-term exception    | [.opencode/skills/naming-language](.opencode/skills/naming-language/SKILL.md)                                       |
 
 ## How Skills Work
 

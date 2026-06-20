@@ -54,28 +54,24 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 **Parent Agent Process:**
 
-1. **Create session file** automatically with unique session_id
-2. **Analyze task** and determine which specialized agents are needed
-3. **Invoke specialized agents** to create implementation plans
-4. **Execute plans** step-by-step
-5. **Update session context** after each phase (append-only)
+1. **Analyze task** and determine which specialized agents are needed
+2. **Invoke specialized agents** to create implementation plans
+3. **Execute plans** step-by-step
+4. **Run Guardian** after each implementation to verify code culture alignment
 
-**Session files**: `.claude/tasks/context_session_{id}.md` (append-only logs)
+### Guardian — Code Culture Verification
+
+After every implementation (feature, fix, or refactor), run:
+
+```bash
+guardian run
+```
+
+Guardian reads `RULES.md` and validates that the implemented code follows the team's cultural conventions. Do not consider an implementation complete until Guardian passes or all violations are explicitly acknowledged.
 
 ### For Trivial Changes
 
 Implement directly (typos, simple edits) - no session needed.
-
-## Session Context Protocol
-
-**When session_id is provided:**
-
-1. Read `.claude/tasks/context_session_{id}.md` FIRST
-2. Understand previous decisions and progress
-3. Continue from where previous work left off
-4. **Append** your entry at the end (NEVER overwrite)
-
-**Entry format**: See `.claude/tasks/README.md` for full protocol.
 
 ## Documentation Map
 
@@ -84,10 +80,6 @@ Implement directly (typos, simple edits) - no session needed.
 ### Always Read First
 
 - `.claude/knowledge/critical-constraints.md`- Non-negotiable rules
-
-### Read If Session Exists
-
-- `.claude/tasks/context_session_{id}.md` - Session history
 
 ### Load As Needed (Use Grep for sections)
 
@@ -114,7 +106,6 @@ Implement directly (typos, simple edits) - no session needed.
 - Externalize all text to text maps (no hardcoded strings)
 - Follow architecture dependency rules strictly
 - Agents create plans, parent executes
-- Session context is append-only (never overwrite)
 
 ## MCP Configuration
 
@@ -131,17 +122,18 @@ Implement directly (typos, simple edits) - no session needed.
 
 **Auto-applied rules** (based on file paths) in `.claude/rules/`:
 
-| Rule                              | Applies to                  | Description                                                                |
-| --------------------------------- | --------------------------- | -------------------------------------------------------------------------- |
-| `code-quality.md`                 | `src/**/*.{ts,tsx}`         | ESLint conventions, TypeScript strictness, no `any`                        |
-| `naming-conventions.md`           | `src/**/*.{ts,tsx}`         | kebab-case files, PascalCase components, suffixes                          |
-| `folder-structure.md`             | `src/**/*.{ts,tsx}`         | Screaming Architecture + Atomic Design layout                              |
-| `text-management.md`              | `src/**/*.{ts,tsx}`         | Domain messages, no hardcoded strings                                      |
-| `styling.md`                      | `src/**/*.{ts,tsx}`         | Tailwind + `@apply`, mobile-first, no inline styles                        |
-| `project-characteristics.md`      | `src/**/*.{ts,tsx}`         | RSC-first, Zustand, nuqs, Server Actions                                   |
-| `document-component-storybook.md` | `src/**/*.{ts,tsx}`         | Storybook story structure aligned with Figma                               |
-| `ddd-domain-structure.md`         | `src/domains/**/*.{ts,tsx}` | DDD domain anatomy: components, hooks, stores, actions, schemas, messages  |
-| `forms.md`                        | `src/**/*.{ts,tsx}`         | React Hook Form + Zod obligatorio, schema por archivo, hook por formulario |
+| Rule                              | Applies to                  | Description                                                                 |
+| --------------------------------- | --------------------------- | --------------------------------------------------------------------------- |
+| `code-quality.md`                 | `src/**/*.{ts,tsx}`         | ESLint conventions, TypeScript strictness, no `any`                         |
+| `naming-conventions.md`           | `src/**/*.{ts,tsx}`         | kebab-case files, PascalCase components, suffixes                           |
+| `folder-structure.md`             | `src/**/*.{ts,tsx}`         | Screaming Architecture + Atomic Design layout                               |
+| `text-management.md`              | `src/**/*.{ts,tsx}`         | Domain messages, no hardcoded strings                                       |
+| `styling.md`                      | `src/**/*.{ts,tsx}`         | Tailwind + `@apply`, mobile-first, no inline styles                         |
+| `project-characteristics.md`      | `src/**/*.{ts,tsx}`         | RSC-first, Zustand, nuqs, Server Actions                                    |
+| `document-component-storybook.md` | `src/**/*.{ts,tsx}`         | Storybook story structure aligned with Figma                                |
+| `ddd-domain-structure.md`         | `src/domains/**/*.{ts,tsx}` | DDD domain anatomy: components, hooks, stores, actions, schemas, messages   |
+| `forms.md`                        | `src/**/*.{ts,tsx}`         | React Hook Form + Zod obligatorio, schema por archivo, hook por formulario  |
+| `naming-language.md`              | `src/**/*.{ts,tsx}`         | English-only identifiers — no Spanish names except non-generic domain terms |
 
 ## General instructions
 
@@ -149,17 +141,23 @@ Implement directly (typos, simple edits) - no session needed.
 
 ## Available Skills
 
-### Generic Skills (User Installation → ~/.claude/skills/)
+### Skills
 
-These skills are copied to user's Claude/OpenCode config via the installer.
+Canonical source: `AGENTS/` (root). `.claude/skills` and `.opencode/skills` are symlinks to it.
 
-| Skill             | Description                                                      | Source                                                                    |
-| ----------------- | ---------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `frontend-design` | Distinctive frontend designs, typography, color palettes, motion | [.claude/skills/frontend-design](.claude/skills/frontend-design/SKILL.md) |
-| `react-19`        | React 19 patterns, React Compiler, no manual memoization         | [.claude/skills/react-19](.claude/skills/react-19/SKILL.md)               |
-| `typescript`      | TypeScript strict patterns, types, interfaces, generics          | [.claude/skills/typescript](.claude/skills/typescript/SKILL.md)           |
-| `tailwind-4`      | Tailwind CSS v4, cn(), theme variables, no var() in className    | [.claude/skills/tailwind-4](.claude/skills/tailwind-4/SKILL.md)           |
-| `zod-4`           | Zod v4 schema validation, breaking changes from v3               | [.claude/skills/zod-4](.claude/skills/zod-4/SKILL.md)                     |
+| Skill                                | Description                                                                                  | Source                                                                                                          |
+| ------------------------------------ | -------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `frontend-design`                    | Distinctive frontend designs, typography, color palettes, motion                             | [.claude/skills/frontend-design](.claude/skills/frontend-design/SKILL.md)                                       |
+| `react-19`                           | React 19 patterns, React Compiler, no manual memoization                                     | [.claude/skills/react-19](.claude/skills/react-19/SKILL.md)                                                     |
+| `typescript`                         | TypeScript strict patterns, types, interfaces, generics                                      | [.claude/skills/typescript](.claude/skills/typescript/SKILL.md)                                                 |
+| `tailwind-4`                         | Tailwind CSS v4, cn(), theme variables, no var() in className                                | [.claude/skills/tailwind-4](.claude/skills/tailwind-4/SKILL.md)                                                 |
+| `zod-4`                              | Zod v4 schema validation, breaking changes from v3                                           | [.claude/skills/zod-4](.claude/skills/zod-4/SKILL.md)                                                           |
+| `grill-me`                           | Interview the user relentlessly about a plan or design until reaching shared understanding   | [.claude/skills/grill-me](.claude/skills/grill-me/SKILL.md)                                                     |
+| `thermo-nuclear-code-quality-review` | Extremely strict maintainability review — abstraction quality, giant files, spaghetti growth | [.claude/skills/thermo-nuclear-code-quality-review](.claude/skills/thermo-nuclear-code-quality-review/SKILL.md) |
+| `commit-conventions`                 | Enforce project-specific Git commit message conventions compatible with commitlint           | [.claude/skills/commit-conventions](.claude/skills/commit-conventions/SKILL.md)                                 |
+| `atomic-design`                      | Guide for creating, componentizing, and refactoring UI components following Atomic Design    | [.claude/skills/atomic-design](.claude/skills/atomic-design/SKILL.md)                                           |
+| `forms`                              | Forms with React Hook Form + Zod — schema, hook, component, and Server Action patterns       | [.claude/skills/forms](.claude/skills/forms/SKILL.md)                                                           |
+| `naming-language`                    | English-only identifiers — detect and fix Spanish names with narrow domain-term exception    | [.claude/skills/naming-language](.claude/skills/naming-language/SKILL.md)                                       |
 
 ## How Skills Work
 
@@ -173,10 +171,8 @@ These skills are copied to user's Claude/OpenCode config via the installer.
 Before starting work:
 
 - [ ] Read `.claude/knowledge/critical-constraints.md`?
-- [ ] Read session context if `session_id` provided?
 - [ ] Understand my role (check `.claude/agents/{my-name}.md` if specialized agent)?
 - [ ] Know which MCP tools I have access to?
-- [ ] Will append to session context (not overwrite)?
 - [ ] Will create plan in `.claude/plans/` (not implement directly)?
 - [ ] If there is information that replaces or modifies the knowledge, run the `project-consult` agent to update the files involved in `.claude/knowledge/`.
 
