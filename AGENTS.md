@@ -1,4 +1,4 @@
-# OPENCODE.md: Project Context for AI Agents
+# OPENCODE.md
 
 This file provides guidance to Opencode when working with code in this repository.
 
@@ -18,6 +18,7 @@ This is a Next.js 15 application using React 19, TypeScript, and Tailwind CSS v4
 - **Conditional classes**: Always use the `cn()` utility for conditional or merged class names — never string interpolation (`\`class-${var}\``).
 
 > Full non-negotiable constraints → `.opencode/knowledge/critical-constraints.md`
+> Full rules of project → `.opencode/rules/*.md`
 
 ## 🔴 CRITICAL - READ FIRST
 
@@ -41,6 +42,7 @@ This document contains non-negotiable architectural rules. Violating these rules
 - **Wireframe Design** → `.opencode/agents/wireframe-designer.md`
 - **Code Quality Review** → `.opencode/agents/code-reviewer.md`
 - **Code Audit** → `.opencode/agents/code-audit.md`
+- **Doc Gardener** → `.opencode/agents/doc-gardener.md`
 
 **How to use agents:**
 
@@ -50,32 +52,22 @@ This document contains non-negotiable architectural rules. Violating these rules
 
 ## Workflow Protocol
 
-### For New Features (Automatic Orchestration)
+### Agent Process
 
-**Parent Agent Process:**
+1. **Analyze task** and determine which specialized agents are needed
+2. **Invoke specialized agents** to create implementation plans
+3. **Execute plans** step-by-step
+4. **Run Guardian** after each implementation to verify code culture alignment
 
-1. **Create session file** automatically with unique session_id
-2. **Analyze task** and determine which specialized agents are needed
-3. **Invoke specialized agents** to create implementation plans
-4. **Execute plans** step-by-step
-5. **Update session context** after each phase (append-only)
+### Guardian — Code Culture Verification
 
-**Session files**: `.opencode/tasks/context_session_{id}.md` (append-only logs)
+After every implementation (feature, fix, or refactor), run:
 
-### For Trivial Changes
+```bash
+guardian run
+```
 
-Implement directly (typos, simple edits) - no session needed.
-
-## Session Context Protocol
-
-**When session_id is provided:**
-
-1. Read `.opencode/tasks/context_session_{id}.md` FIRST
-2. Understand previous decisions and progress
-3. Continue from where previous work left off
-4. **Append** your entry at the end (NEVER overwrite)
-
-**Entry format**: See `.opencode/tasks/README.md` for full protocol.
+Guardian reads `RULES.md` and validates that the implemented code follows the team's cultural conventions. Do not consider an implementation complete until Guardian passes or all violations are explicitly acknowledged.
 
 ## Documentation Map
 
@@ -84,10 +76,6 @@ Implement directly (typos, simple edits) - no session needed.
 ### Always Read First
 
 - `.opencode/knowledge/critical-constraints.md`- Non-negotiable rules
-
-### Read If Session Exists
-
-- `.opencode/tasks/context_session_{id}.md` - Session history
 
 ### Load As Needed (Use Grep for sections)
 
@@ -131,34 +119,42 @@ Implement directly (typos, simple edits) - no session needed.
 
 **Auto-applied rules** (based on file paths) in `.opencode/rules/`:
 
-| Rule                              | Applies to          | Description                                         |
-| --------------------------------- | ------------------- | --------------------------------------------------- |
-| `code-quality.md`                 | `src/**/*.{ts,tsx}` | ESLint conventions, TypeScript strictness, no `any` |
-| `naming-conventions.md`           | `src/**/*.{ts,tsx}` | kebab-case files, PascalCase components, suffixes   |
-| `folder-structure.md`             | `src/**/*.{ts,tsx}` | Screaming Architecture + Atomic Design layout       |
-| `text-management.md`              | `src/**/*.{ts,tsx}` | Domain messages, no hardcoded strings               |
-| `styling.md`                      | `src/**/*.{ts,tsx}` | Tailwind + `@apply`, mobile-first, no inline styles |
-| `project-characteristics.md`      | `src/**/*.{ts,tsx}` | RSC-first, Zustand, nuqs, Server Actions            |
-| `document-component-storybook.md` | `src/**/*.{ts,tsx}` | Storybook story structure aligned with Figma        |
-| `migration-rules.md`              | —                   | Pre-flight checklist, no barrel files, layer rules  |
+| Rule                              | Applies to                  | Description                                                                 |
+| --------------------------------- | --------------------------- | --------------------------------------------------------------------------- |
+| `code-quality.md`                 | `src/**/*.{ts,tsx}`         | ESLint conventions, TypeScript strictness, no `any`                         |
+| `naming-conventions.md`           | `src/**/*.{ts,tsx}`         | kebab-case files, PascalCase components, suffixes                           |
+| `folder-structure.md`             | `src/**/*.{ts,tsx}`         | Screaming Architecture + Atomic Design layout                               |
+| `text-management.md`              | `src/**/*.{ts,tsx}`         | Domain messages, no hardcoded strings                                       |
+| `styling.md`                      | `src/**/*.{ts,tsx}`         | Tailwind + `@apply`, mobile-first, no inline styles                         |
+| `project-characteristics.md`      | `src/**/*.{ts,tsx}`         | RSC-first, Zustand, nuqs, Server Actions                                    |
+| `document-component-storybook.md` | `src/**/*.{ts,tsx}`         | Storybook story structure aligned with Figma                                |
+| `ddd-domain-structure.md`         | `src/domains/**/*.{ts,tsx}` | DDD domain anatomy: components, hooks, stores, actions, schemas, messages   |
+| `forms.md`                        | `src/**/*.{ts,tsx}`         | React Hook Form + Zod obligatorio, schema por archivo, hook por formulario  |
+| `naming-language.md`              | `src/**/*.{ts,tsx}`         | English-only identifiers — no Spanish names except non-generic domain terms |
 
 ## Available Skills
 
-### Generic Skills (User Installation → ~/.opencode/skills/)
+### Skills
 
-These skills are copied to user's Claude/OpenCode config via the installer.
+Canonical source: `AGENTS/` (root). `.claude/skills` and `.opencode/skills` are symlinks to it.
 
-| Skill             | Description                                                      | Source                                                                        |
-| ----------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------- |
-| `frontend-design` | Distinctive frontend designs, typography, color palettes, motion | [.opencode/skills/frontend-design](.opencode/skills/frontend-design/SKILL.md) |
-| `react-19`        | React 19 patterns, React Compiler, no manual memoization         | [.opencode/skills/react-19](.opencode/skills/react-19/SKILL.md)               |
-| `typescript`      | TypeScript strict patterns, types, interfaces, generics          | [.opencode/skills/typescript](.opencode/skills/typescript/SKILL.md)           |
-| `tailwind-4`      | Tailwind CSS v4, cn(), theme variables, no var() in className    | [.opencode/skills/tailwind-4](.opencode/skills/tailwind-4/SKILL.md)           |
-| `zod-4`           | Zod v4 schema validation, breaking changes from v3               | [.opencode/skills/zod-4](.opencode/skills/zod-4/SKILL.md)                     |
+| Skill                                | Description                                                                                  | Source                                                                                                              |
+| ------------------------------------ | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `frontend-design`                    | Distinctive frontend designs, typography, color palettes, motion                             | [.opencode/skills/frontend-design](.opencode/skills/frontend-design/SKILL.md)                                       |
+| `react-19`                           | React 19 patterns, React Compiler, no manual memoization                                     | [.opencode/skills/react-19](.opencode/skills/react-19/SKILL.md)                                                     |
+| `typescript`                         | TypeScript strict patterns, types, interfaces, generics                                      | [.opencode/skills/typescript](.opencode/skills/typescript/SKILL.md)                                                 |
+| `tailwind-4`                         | Tailwind CSS v4, cn(), theme variables, no var() in className                                | [.opencode/skills/tailwind-4](.opencode/skills/tailwind-4/SKILL.md)                                                 |
+| `zod-4`                              | Zod v4 schema validation, breaking changes from v3                                           | [.opencode/skills/zod-4](.opencode/skills/zod-4/SKILL.md)                                                           |
+| `grill-me`                           | Interview the user relentlessly about a plan or design until reaching shared understanding   | [.opencode/skills/grill-me](.opencode/skills/grill-me/SKILL.md)                                                     |
+| `thermo-nuclear-code-quality-review` | Extremely strict maintainability review — abstraction quality, giant files, spaghetti growth | [.opencode/skills/thermo-nuclear-code-quality-review](.opencode/skills/thermo-nuclear-code-quality-review/SKILL.md) |
+| `commit-conventions`                 | Enforce project-specific Git commit message conventions compatible with commitlint           | [.opencode/skills/commit-conventions](.opencode/skills/commit-conventions/SKILL.md)                                 |
+| `atomic-design`                      | Guide for creating, componentizing, and refactoring UI components following Atomic Design    | [.opencode/skills/atomic-design](.opencode/skills/atomic-design/SKILL.md)                                           |
+| `forms`                              | Forms with React Hook Form + Zod — schema, hook, component, and Server Action patterns       | [.opencode/skills/forms](.opencode/skills/forms/SKILL.md)                                                           |
+| `naming-language`                    | English-only identifiers — detect and fix Spanish names with narrow domain-term exception    | [.opencode/skills/naming-language](.opencode/skills/naming-language/SKILL.md)                                       |
 
 ## How Skills Work
 
-1. **Auto-detection**: Claude Code reads CLAUDE.md which contains skill triggers
+1. **Auto-detection**: Open Code reads AGENTS.md which contains skill triggers
 2. **Context matching**: When editing Go/TUI code, gentleman-bubbletea loads
 3. **Pattern application**: AI follows the exact patterns from the skill
 4. **First-time-correct**: No trial and error - skills provide exact conventions
@@ -168,13 +164,8 @@ These skills are copied to user's Claude/OpenCode config via the installer.
 Before starting work:
 
 - [ ] Read `.opencode/knowledge/critical-constraints.md`?
-- [ ] Read session context if `session_id` provided?
 - [ ] Understand my role (check `.opencode/agents/{my-name}.md` if specialized agent)?
 - [ ] Know which MCP tools I have access to?
-- [ ] Will append to session context (not overwrite)?
-- [ ] Will create plan in `.opencode/plans/` (not implement directly)?
 - [ ] If there is information that replaces or modifies the knowledge, run the `project-consultant` agent to update the files involved in `.opencode/knowledge/`.
 
 If any ❌, STOP and review documentation.
-
-**Token Budget Goal**: ~400-500 tokens for this file. All details are in `.opencode/knowledge/` docs.

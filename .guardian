@@ -1,0 +1,7 @@
+# Guardian project configuration
+
+PROVIDER="opencode"
+RULES_FILE="RULES.md"
+STRICT_MODE="false"
+TIMEOUT="300"
+CACHE="true"

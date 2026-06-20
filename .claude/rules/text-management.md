@@ -6,7 +6,7 @@ paths: src/**/*.{ts,tsx}
 
 Static text management in the application follows a domain-centralized approach that eliminates scattered text strings in components. This practice improves maintainability, ensures consistency, and facilitates future internationalization implementations.
 
-## Clasificación de mensajes por alcance
+## Message classification by scope
 
 ### Global Messages (/config/messages.ts)
 
@@ -60,8 +60,6 @@ Message organization by domain follows the project's folder architecture. Each d
 ```
 
 ## Using Messages in Components
-
-This section describes how and when to use messages in application components. Proper use of centralized messages improves consistency, facilitates maintenance, and prepares the application for future internationalization implementations.
 
 ### When to Use Domain Messages
 
@@ -139,45 +137,10 @@ export const authValidationMessages = {
 
 ## Best Practices
 
-Following these practices ensures maintainable, scalable, and consistent code in text management. These recommendations are based on real project experiences and help avoid common problems:
-
 1. **One messages.ts file per domain** to maintain cohesion
-
-   - Avoid fragmenting messages into multiple files within the same domain
-   - Facilitates searching and maintaining related texts
-   - Allows having a complete view of all domain messages
-
 2. **Common messages in /config** only for cross-cutting texts
-
-   - Don't use common messages for texts that are only used in one domain
-   - If a message is used in 2+ domains, consider moving it to `/config/messages.ts`
-   - Keep `/config/messages.ts` focused on truly generic actions and states
-
 3. **Type safety** using `as const` and exported types
-
-   - Use `as const` to ensure literal types and prevent mutations
-   - Export TypeScript types for autocomplete and compile-time validation
-   - Consider creating typed helpers to access nested messages
-
 4. **Descriptive names** that reflect the message context
-
-   - Use names that clearly indicate where and when the message is used
-   - Group related messages using nested objects (e.g., `login.title`, `login.submitButton`)
-   - Avoid generic names like `message1`, `text`, `label` that don't provide context
-
 5. **Functions for dynamic texts** instead of concatenation
-
-   - Use functions that receive parameters instead of concatenating strings in components
-   - This facilitates translation and pluralization handling in the future
-   - Example: `itemCount(count)` is better than `count + ' items'` in the component
-
-6. **Consistency in message object structure**
-
-   - Maintain a similar structure across domains to facilitate navigation
-   - Use the same nesting depth for similar concepts
-   - Document the expected structure in comments when necessary
-
-7. **Avoid message duplication**
-   - If a message repeats in multiple places, consider moving it to a higher level
-   - Use common messages for identical texts that appear in different domains
-   - Periodically review if there are similar messages that can be consolidated
+6. **Consistency in message object structure** across domains
+7. **Avoid message duplication** — consolidate repeated messages

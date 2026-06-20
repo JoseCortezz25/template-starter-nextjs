@@ -5,7 +5,6 @@ paths: src/**/*.{ts,tsx}
 The project implements Screaming Architecture along with Atomic Design, following a logical organization that facilitates navigation, maintenance, and scalability.
 
 The main `/src` folder contains all the essential folders for development.
-The main /src folder contains all the essential folders for development.
 
 ```
 /src
@@ -44,7 +43,6 @@ The main /src folder contains all the essential folders for development.
 │   │   ├── stores/
 │   │   │   └── user.store.ts
 │   │   ├── messages.ts             # Users domain text messages
-│   │   │                           # For i18n: use messages/en.ts, messages/es.ts
 │   │   └── ...
 │
 ├── lib/                            # Global logic and initializations
@@ -119,8 +117,6 @@ In `/config`, global system configurations are defined, including the applicatio
 
 Inside `/utils`, generic utility functions such as formatters or validators are housed, which can be used transversally in multiple project modules.
 
-The `/stories` directory stores Storybook stories used to document and visualize components in isolation. It is structured into subfolders that separate global components from those specific to a domain, maintaining consistency with the project's architecture. This allows for clear documentation aligned with the modular design of the application.
+The `/stories` directory stores Storybook stories used to document and visualize components in isolation. It is structured into subfolders that separate global components from those specific to a domain, maintaining consistency with the project's architecture.
 
 Finally, `/.storybook/` contains the main Storybook configuration, including files like `main.ts` and `preview.ts`, which define the execution environment and story loading.
-
-This structure promotes a clear separation of responsibilities, improves long-term maintainability, and facilitates collaborative work in scalable development environments.

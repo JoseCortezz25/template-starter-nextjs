@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "zustand": {
+      "source": "pedronauck/skills",
+      "sourceType": "github",
+      "skillPath": "skills/curated/zustand/SKILL.md",
+      "computedHash": "5602a430065cace096abfee888b3e58f096ac01eff541dce7ee59bd18342ca10"
+    }
+  }
+}
