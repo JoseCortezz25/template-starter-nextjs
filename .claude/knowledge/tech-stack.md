@@ -26,13 +26,13 @@
 
 ### UI Libraries and Styling
 
-| Library                       | Version  | Purpose                                    |
-| ----------------------------- | -------- | ------------------------------------------ |
-| **Tailwind CSS**              | `4.1.0`  | Utility-first CSS framework                |
-| **shadcn/ui**                 | `latest` | Collection of accessible React components  |
-| **Radix UI**                  | `latest` | Unstyled UI primitives (shadcn foundation) |
-| **class-variance-authority**  | `latest` | Component variant management               |
-| **clsx** / **tailwind-merge** | `latest` | Utilities for combining CSS classes        |
+| Library                      | Version  | Purpose                                                                                                        |
+| ---------------------------- | -------- | -------------------------------------------------------------------------------------------------------------- |
+| **Tailwind CSS**             | `4.1.0`  | Utility-first CSS framework                                                                                    |
+| **shadcn/ui**                | `latest` | Collection of accessible React components                                                                      |
+| **Radix UI**                 | `latest` | Unstyled UI primitives (shadcn foundation)                                                                     |
+| **class-variance-authority** | `latest` | Component variant management                                                                                   |
+| **cnfast**                   | `latest` | High-performance utility for merging Tailwind classes (3.8x faster than tailwind-merge, byte-identical output) |
 
 ```bash
 # Install shadcn/ui
