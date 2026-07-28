@@ -52,7 +52,7 @@ npx shadcn@latest add dialog
 | ------------------- | --------- | ----------------------------------------- |
 | **React Query**     | `^5.0.0`  | Server state management (data fetching)   |
 | **Zustand**         | `5.0.5`   | Client/UI state management                |
-| **React Hook Form** | `^7.53.2` | Complex form state management             |
+| **React Hook Form** | `^7.53.2` | Form state and validation                 |
 | **nuqs**            | `latest`  | URL-based state management (query params) |
 
 #### State Management Strategy
@@ -64,7 +64,7 @@ We follow a **decision matrix** to choose the right tool:
 | **Server**    | React Query     | Data from backend (fetched, cached) |
 | **Client/UI** | Zustand         | UI state, local preferences         |
 | **Local**     | useState        | Component-only state                |
-| **Forms**     | React Hook Form | Complex forms with validation       |
+| **Forms**     | React Hook Form | Every form with Zod validation      |
 
 **React Query (TanStack Query) Features**:
 
@@ -92,7 +92,7 @@ export function useWorkouts() {
 - No providers needed
 - Minimalist API
 - Compatible with React Server Components
-- Atomic stores per domain
+- Segmented stores per cohesive UI capability
 - Built-in persistence middleware
 
 ```tsx
@@ -163,26 +163,22 @@ export const loginSchema = z.object({
 
 | Library                 | Version   | Purpose                        |
 | ----------------------- | --------- | ------------------------------ |
-| **React Hook Form**     | `^7.53.2` | Complex form state management  |
+| **React Hook Form**     | `^7.53.2` | Form state and validation      |
 | **@hookform/resolvers** | `^3.9.1`  | Zod integration for validation |
 
-**Approach**: React Hook Form for complex forms, native hooks for simple forms
+**Approach**: React Hook Form with Zod validation for every form
 
-- **Complex forms**: React Hook Form with Zod validation
-- **Simple forms**: React 19 built-in hooks (`useActionState`, `useFormStatus`)
+- **Every form**: React Hook Form with `zodResolver` and one dedicated `.schema.ts` file
 - **Server Actions**: Validation and mutation logic on server
 
 ```tsx
-// Complex forms with validation
+// Every form
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 const { register, handleSubmit, formState } = useForm({
   resolver: zodResolver(mySchema)
 });
-
-// Simple forms with Server Actions
-import { useActionState, useFormStatus } from 'react';
 ```
 
 ---

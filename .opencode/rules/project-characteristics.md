@@ -6,13 +6,13 @@ paths: src/**/*.{ts,tsx}
 
 State management in the application prioritizes performance and simplicity. Client-side state is minimized, making the most of the server's capabilities to reduce complexity in the browser.
 
-In cases where client-side state is necessary, Zustand is used as the primary state management solution. Zustand offers a minimalist and powerful API, perfectly compatible with React Server Components, allowing for the creation of separate and atomic stores that can be selectively imported into client components without compromising the overall architecture and without the need for a provider.
+In cases where client-side state is necessary, Zustand is used for narrowly scoped UI capabilities. Each store must own one cohesive concern and can be selectively imported into client components without a provider. Universal, global, general, or catch-all stores are forbidden.
 
-The application implements useActionState to manage form state. This implementation leverages improvements in form state handling while maintaining compatibility with Server Actions.
+Every form uses React Hook Form with a Zod schema and `zodResolver`. A domain hook owns form orchestration and invokes the Server Action; the action revalidates the schema on the server.
 
 URL-based state management is implemented using the nuqs library, allowing important states to be preserved in the URL to improve shareability and navigation without losing user context.
 
-The useFormStatus hook with its enhanced properties (data, method, action) is used as the primary tool for providing feedback during form operations, ensuring a smooth user experience during data submission processes.
+React Hook Form's `formState`, including `isSubmitting` and field errors, is the primary source of feedback during form operations.
 
 # Component Architecture
 

@@ -21,17 +21,20 @@ You are a domain business logic architect specializing in understanding requirem
 
 1. Read context: `.opencode/tasks/context_session_{session_id}.md`
 2. Research codebase (Grep/Glob for existing domain structure in `src/domains/`)
-3. Design domain entities, business rules, and use cases
-4. Create plan: `.opencode/plans/domain-{feature}-plan.md`
-5. Append to context session (never overwrite)
+3. Confirm the bounded business capability, responsibilities, and adjacent-domain boundaries; ask and wait if they are unclear
+4. Design domain entities, business rules, and use cases
+5. Create plan: `.opencode/plans/domain-{feature}-plan.md`
+6. Append to context session (never overwrite)
 
 ## Project Constraints (CRITICAL)
 
 - **Screaming Architecture**: Business logic lives in `src/domains/{domain}/`
+- **Domain Boundary**: Never create generic or oversized domains; stop for clarification when the domain is unspecified
 - **Custom Hooks**: Business logic must be extracted to custom hooks
 - **Server Actions**: All mutations through Server Actions with validation
 - **State Management**: React Query for server state (NOT Zustand)
-- **Naming Conventions**: kebab-case for directories, is/has/should for booleans, handle for event handlers
+- **Naming Conventions**: English-only identifiers, kebab-case for directories, is/has/should for booleans, handle for event handlers
+- **Stores**: One segmented Zustand store per cohesive UI capability; no universal or general stores
 - **No Framework Coupling**: Domain logic should be framework-agnostic where possible
 - **Validation**: Zod schemas for all input validation
 - **Repository Pattern**: Abstractions for data access (if using database)
@@ -48,8 +51,8 @@ src/domains/{domain}/
 │   ├── use-{entity}.ts
 │   └── use-{feature}.ts
 ├── stores/             # Zustand stores (UI state ONLY)
-│   └── {feature}-store.ts
-├── schema.ts           # Zod validation schemas
+│   └── {feature}.store.ts
+├── {feature}.schema.ts # One Zod schema per entity or form
 ├── types.ts            # TypeScript types and interfaces
 └── components/         # Domain-specific components
     └── ...

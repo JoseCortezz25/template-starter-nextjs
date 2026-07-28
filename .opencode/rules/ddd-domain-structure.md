@@ -4,7 +4,13 @@ paths: src/domains/**/*.{ts,tsx,css}
 
 # Domain-Driven Design — Internal Domain Structure
 
-Each folder under `src/domains/` represents a **business domain**. Every domain is fully self-contained: it owns its components, hooks, stores, schemas, messages, and types. Nothing leaks in or out between domains.
+Each folder under `src/domains/` represents a narrowly bounded **business domain**. Every domain is fully self-contained: it owns its components, hooks, stores, schemas, messages, and types. Nothing leaks in or out between domains.
+
+## Domain Discovery Gate
+
+Before planning or creating a domain, the user must explicitly identify the business capability. If it is missing or ambiguous, stop and ask focused questions about the capability, its responsibilities, and its boundaries with adjacent domains. Do not infer a generic domain and do not continue until the user answers.
+
+Domains must model a cohesive business capability. Generic or oversized names such as `core`, `common`, `app`, `shared`, and `management` are forbidden.
 
 ---
 
@@ -23,15 +29,15 @@ src/domains/
     ├── hooks/                      # ALL business logic lives here
     │   ├── use-auth.ts
     │   └── use-session-check.ts
-    ├── stores/                     # Zustand — UI state only
-    │   └── auth.store.ts
+    ├── stores/                     # Zustand — segmented UI state only
+    │   └── auth-menu.store.ts
     ├── actions.ts                  # Server Actions (mutations, data access)
     ├── auth.schema.ts              # Zod schemas (one file per entity/form)
     ├── messages.ts                 # Static UI text for this domain
     ├── validation-messages.ts      # Zod error messages for this domain
     └── types/                      # TypeScript types (one main type per file)
         ├── auth-user.types.ts
-        └── login-credentials.types.ts
+        └── auth-menu-store.types.ts
 ```
 
 ---
@@ -43,12 +49,16 @@ src/domains/
 Domain components follow the same Atomic Design hierarchy as global `components/`, but are **scoped to this domain only**.
 
 **atoms/** — single-responsibility, no composition:
+
 ```tsx
 // domains/auth/components/atoms/auth-button.tsx
 // ✅ Receives everything via props, zero logic
 export function AuthButton({ isLoading, children, ...props }: AuthButtonProps) {
   return (
-    <button className={cn('auth-button', { 'auth-button--loading': isLoading })} {...props}>
+    <button
+      className={cn('auth-button', { 'auth-button--loading': isLoading })}
+      {...props}
+    >
       {children}
     </button>
   );
@@ -56,6 +66,7 @@ export function AuthButton({ isLoading, children, ...props }: AuthButtonProps) {
 ```
 
 **molecules/** — compose atoms, may have minimal local state (e.g. `useState` for show/hide password):
+
 ```tsx
 // domains/auth/components/molecules/password-field.tsx
 'use client';
@@ -77,6 +88,7 @@ export function PasswordField({ register, error }: PasswordFieldProps) {
 ```
 
 **organisms/** — full feature sections, coordinate molecules, use domain hooks:
+
 ```tsx
 // domains/auth/components/organisms/login-form.tsx
 'use client';
@@ -96,6 +108,7 @@ export function LoginForm() {
 ```
 
 **Rules:**
+
 - ✅ atoms → no hooks, no domain imports, pure props
 - ✅ molecules → may use `useState`/`useRef`, compose atoms
 - ✅ organisms → use domain hooks, compose molecules
@@ -114,17 +127,16 @@ export function LoginForm() {
 'use client';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { loginSchema } from '../auth.schema';
+import { loginSchema, type LoginInput } from '../auth.schema';
 import { loginAction } from '../actions';
 import { authValidationMessages } from '../validation-messages';
-import type { LoginInput } from '../types/login-credentials.types';
 
 export function useLoginSubmit() {
   const form = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginSchema)
   });
 
-  const handleSubmit = form.handleSubmit(async (data) => {
+  const handleSubmit = form.handleSubmit(async data => {
     await loginAction(data);
   });
 
@@ -132,12 +144,13 @@ export function useLoginSubmit() {
     register: form.register,
     handleSubmit,
     errors: form.formState.errors,
-    isSubmitting: form.formState.isSubmitting,
+    isSubmitting: form.formState.isSubmitting
   };
 }
 ```
 
 **Rules:**
+
 - ✅ Named `use-{feature}.ts` in kebab-case
 - ✅ One hook per business concern (not one giant `use-auth.ts` for everything)
 - ✅ Hooks orchestrate: form state + actions + store + messages
@@ -145,24 +158,27 @@ export function useLoginSubmit() {
 
 ---
 
-### `stores/` — Zustand (UI State Only)
+### `stores/` — Segmented Zustand UI State
 
-Zustand stores in a domain manage **client/UI state** — never server data.
+Zustand stores in a domain manage **client/UI state** — never server data. Each store owns one cohesive capability; it cannot aggregate unrelated UI concerns.
 
 ```tsx
-// domains/auth/stores/auth.store.ts
+// domains/auth/stores/auth-menu.store.ts
 import { create } from 'zustand';
 import type { AuthStore } from '../types/auth-store.types';
 
-export const useAuthStore = create<AuthStore>((set) => ({
+export const useAuthMenuStore = create<AuthMenuStore>(set => ({
   isMenuOpen: false,
-  toggleMenu: () => set((state) => ({ isMenuOpen: !state.isMenuOpen })),
+  toggleMenu: () => set(state => ({ isMenuOpen: !state.isMenuOpen }))
 }));
 ```
 
 **Rules:**
+
 - ✅ Named `{entity}.store.ts`
+- ✅ One store per UI capability, such as a menu, panel, preference, or selection
 - ✅ Only UI state: open/closed panels, selected tabs, UI preferences
+- ❌ Never create universal or generic stores such as `app.store.ts`, `ui.store.ts`, `global.store.ts`, or `general.store.ts`
 - ❌ Never fetch data in a store — use React Query hooks instead
 - ❌ Never store backend data (user lists, records) in Zustand
 
@@ -177,7 +193,7 @@ The data access and mutation layer. Combines validation + authorization + persis
 'use server';
 import { auth } from '@/lib/auth';
 import { loginSchema } from './auth.schema';
-import type { LoginInput } from './types/login-credentials.types';
+import type { LoginInput } from './auth.schema';
 
 export async function loginAction(input: LoginInput) {
   const validated = loginSchema.safeParse(input);
@@ -189,6 +205,7 @@ export async function loginAction(input: LoginInput) {
 ```
 
 **Rules:**
+
 - ✅ Always `'use server'` at top
 - ✅ Validate with Zod before any persistence
 - ✅ Check session/authorization before mutations
@@ -206,23 +223,24 @@ export const authMessages = {
   login: {
     title: 'Sign in to your account',
     submit: 'Sign in',
-    forgotPassword: 'Forgot your password?',
+    forgotPassword: 'Forgot your password?'
   },
   register: {
     title: 'Create an account',
-    submit: 'Create account',
-  },
+    submit: 'Create account'
+  }
 } as const;
 
 // domains/auth/validation-messages.ts
 export const authValidationMessages = {
   email: 'Please enter a valid email address',
   passwordTooShort: 'Password must be at least 8 characters',
-  passwordMismatch: 'Passwords do not match',
+  passwordMismatch: 'Passwords do not match'
 } as const;
 ```
 
 **Rules:**
+
 - ✅ `messages.ts` for UI labels, titles, CTAs, placeholders
 - ✅ `validation-messages.ts` for Zod/form error strings
 - ❌ Never hardcode strings directly in JSX or hooks
@@ -240,13 +258,14 @@ import { authValidationMessages } from './validation-messages';
 
 export const loginSchema = z.object({
   email: z.string().email(authValidationMessages.email),
-  password: z.string().min(8, authValidationMessages.passwordTooShort),
+  password: z.string().min(8, authValidationMessages.passwordTooShort)
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
 ```
 
 **Rules:**
+
 - ✅ Named `{entity}.schema.ts` or `{form-name}.schema.ts`
 - ✅ Export both the schema and the inferred type from the same file
 - ❌ Do not put multiple unrelated schemas in one file — split by entity
@@ -261,7 +280,7 @@ One main type or closely related types per file.
 domains/auth/types/
 ├── auth-user.types.ts          # User shape returned by the API
 ├── auth-store.types.ts         # AuthStore state + actions interface
-└── login-credentials.types.ts # Form input type
+└── auth-menu-store.types.ts    # Auth menu store state + actions interface
 ```
 
 ```tsx
@@ -274,6 +293,7 @@ export interface AuthUser {
 ```
 
 **Rules:**
+
 - ✅ Suffix `.types.ts`, named in kebab-case
 - ✅ One main type per file (exception: `AuthState + AuthActions` that together form `AuthStore`)
 - ❌ No barrel `types.ts` file re-exporting everything
@@ -300,11 +320,11 @@ import { useCurrentUser } from '@/components/providers/session-provider';
 
 ## Atomic Design: Domain vs Global
 
-| Level | Global (`src/components/`) | Domain (`src/domains/[entity]/components/`) |
-|---|---|---|
-| **atoms** | Generic: `Button`, `Badge`, `Input` | Domain-specific: `AuthButton`, `PlanBadge` |
-| **molecules** | Generic: `SearchBar`, `FormField` | Domain-specific: `PasswordField`, `RoleSelector` |
-| **organisms** | Generic: `Header`, `DataTable` | Domain-specific: `LoginForm`, `UserProfileCard` |
+| Level         | Global (`src/components/`)          | Domain (`src/domains/[entity]/components/`)      |
+| ------------- | ----------------------------------- | ------------------------------------------------ |
+| **atoms**     | Generic: `Button`, `Badge`, `Input` | Domain-specific: `AuthButton`, `PlanBadge`       |
+| **molecules** | Generic: `SearchBar`, `FormField`   | Domain-specific: `PasswordField`, `RoleSelector` |
+| **organisms** | Generic: `Header`, `DataTable`      | Domain-specific: `LoginForm`, `UserProfileCard`  |
 
 - If a component is **reused across 2+ domains** → move to `src/components/`
 - If a component only makes sense in **one domain** → keep it in `domains/[entity]/components/`

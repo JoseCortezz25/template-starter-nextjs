@@ -31,10 +31,10 @@ Custom hooks must always start with the `use-` prefix followed by the functional
 
 ### Store Files (Zustand)
 
-Zustand stores must include the `.store` suffix before the extension to clearly indicate their purpose as state managers.
+Zustand stores must include the `.store` suffix before the extension and name one cohesive UI capability. Universal or general store names are forbidden.
 
-- **Valid**: `auth.store.ts`, `extraction.store.ts`, `ui-state.store.ts`
-- **Incorrect**: `authStore.ts`, `store-auth.ts`
+- **Valid**: `auth-menu.store.ts`, `extraction-panel.store.ts`, `theme-preference.store.ts`
+- **Incorrect**: `authStore.ts`, `store-auth.ts`, `app.store.ts`, `ui.store.ts`, `global.store.ts`, `general.store.ts`
 
 ### Schema Files (Zod)
 
@@ -179,11 +179,11 @@ export const loginSchema = z.object({
 
 ### Inferred Types from Schemas
 
-Types inferred from Zod schemas should use a clean **PascalCase** name without additional suffixes.
+Types inferred from Zod form schemas must use the form name plus the `Input` suffix in PascalCase.
 
 ```typescript
 export const loginSchema = z.object({ ... });
-export type Login = z.infer<typeof loginSchema>;
+export type LoginInput = z.infer<typeof loginSchema>;
 ```
 
-- **Incorrect**: `LoginData`, `LoginType`, `ILogin`.
+- **Incorrect**: `Login`, `LoginData`, `LoginType`, `ILogin`.
