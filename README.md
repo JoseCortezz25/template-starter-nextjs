@@ -4,7 +4,7 @@
 
 ![Next.js](https://img.shields.io/badge/Next.js-16.2.12-black?style=for-the-badge&logo=next.js)
 ![React](https://img.shields.io/badge/React-19.2.8-61DAFB?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=for-the-badge&logo=typescript)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-06B6D4?style=for-the-badge&logo=tailwind-css)
 
 **A production-ready Next.js 16 starter template with TypeScript, Tailwind CSS v4, shadcn/ui, and modern architecture patterns.**
@@ -215,13 +215,13 @@ src/
 | -------------- | ------- | -------------------------------------- |
 | **Next.js**    | 16.2.12 | React framework with hybrid rendering  |
 | **React**      | 19.2.8  | Core UI library with Server Components |
-| **TypeScript** | 5.0     | Type-safe JavaScript                   |
+| **TypeScript** | 5.9.2   | Type-safe JavaScript                   |
 
 ### UI & Styling
 
 | Technology       | Version | Purpose                     |
 | ---------------- | ------- | --------------------------- |
-| **Tailwind CSS** | v4.1.12 | Utility-first CSS framework |
+| **Tailwind CSS** | v4.1.13 | Utility-first CSS framework |
 | **shadcn/ui**    | latest  | Accessible React components |
 | **Radix UI**     | latest  | Unstyled UI primitives      |
 | **Lucide React** | 0.503.0 | Icon library                |
@@ -246,7 +246,7 @@ src/
 
 | Technology                | Version | Purpose                       |
 | ------------------------- | ------- | ----------------------------- |
-| **Vitest**                | 3.1.3   | Fast testing framework        |
+| **Vitest**                | 3.2.4   | Fast testing framework        |
 | **Jest**                  | 29.7.0  | Alternative testing framework |
 | **React Testing Library** | latest  | React component testing       |
 | **Playwright**            | latest  | E2E testing                   |
@@ -257,7 +257,7 @@ src/
 | --------------- | -------- | ------------------------------------- |
 | **Storybook**   | 8.6.14   | Component development & documentation |
 | **ESLint**      | 9        | Code linting                          |
-| **Prettier**    | 3.5.3    | Code formatting                       |
+| **Prettier**    | 3.6.2    | Code formatting                       |
 | **Husky**       | 9.1.7    | Git hooks                             |
 | **lint-staged** | 15.5.2   | Run linters on staged files           |
 | **Turbopack**   | built-in | Next-gen bundler                      |
