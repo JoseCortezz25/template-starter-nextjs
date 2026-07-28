@@ -5,7 +5,7 @@ description: Enforce English-only identifiers in source code. Use this skill whe
 
 # Naming Language — English Only
 
-**All identifiers must be in English. Spanish names in code are a violation — with one narrow exception.**
+**All source-code identifiers must be in English. No exceptions.**
 
 ---
 
@@ -29,30 +29,19 @@ type FormState = { ... };
 
 ---
 
-## The Exception (narrow and strict)
+## No Exceptions for Domain Terms
 
-A Spanish identifier is allowed **only when ALL three conditions are met**:
-
-1. It is a **business domain noun** — a concept specific to the application's domain (regulatory, industry-specific, financial, legal)
-2. It is **non-generic** — it cannot be cleanly replaced by a common English word without losing precision
-3. It is used **as the domain noun itself**, not as a wrapper, container, or modifier
+Domain concepts may remain in Spanish in UI strings, documentation, and data values when the product language requires it. Their source-code identifiers must still be English.
 
 ```ts
-// ✅ Allowed — the Spanish term IS the domain concept
+// ❌ Violation
 const expedienteId = params.id;
-type TramiteStatus = 'pendiente' | 'aprobado' | 'rechazado';
-const facturaSchema = z.object({ ... });
-interface CuentaCorrienteItem { ... }
+type TramiteStatus = 'pending' | 'approved' | 'rejected';
 
-// ❌ NOT allowed — Spanish modifier wrapped around generic concept
-const datosUsuario = {};        // → userData
-const listaExpedientes = [];    // → expedienteList
-const resultadoBusqueda = {};   // → searchResult
-const tipoTramite = '';         // → tramiteType
-const estadoTramite = '';       // → tramiteStatus
+// ✅ Correct
+const caseFileId = params.id;
+type ProcedureStatus = 'pending' | 'approved' | 'rejected';
 ```
-
-The key distinction: `expediente` as a noun (allowed) vs `datos` + anything (never allowed).
 
 ---
 
@@ -90,7 +79,7 @@ Same rule — all file names in English, `kebab-case`.
 ✅  user.schema.ts   / fetch-data.ts    / product-list.tsx
 ```
 
-Exception applies: `expediente.schema.ts` is valid if `expediente` is a domain concept.
+Domain-specific file names must also remain in English.
 
 ---
 
@@ -104,11 +93,4 @@ Exception applies: `expediente.schema.ts` is valid if `expediente` is a domain c
 
 ## How to Apply When Reviewing
 
-When you see a Spanish identifier, ask:
-
-1. Is this a generic word? → Always replace with English
-2. Is this a domain noun? → Is it non-generic? Can English express it without precision loss?
-   - No → keep it as the domain noun
-   - Yes (English works fine) → replace it
-
-When proposing names, default to English. Only suggest a Spanish domain noun when the user has already established it as a domain concept in the codebase or explicitly names it as such.
+When you see a non-English identifier, replace it with the clearest English equivalent. Preserve domain precision in documentation or user-facing copy, never by mixing languages in source code.

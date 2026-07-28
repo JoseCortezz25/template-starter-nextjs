@@ -4,7 +4,7 @@ paths: src/**/*.{ts,tsx}
 
 # Naming Language — English Only
 
-**All identifiers must be in English. No Spanish variable names, function names, types, interfaces, constants, props, or hooks.**
+**All source-code identifiers must be in English. No exceptions.**
 
 ---
 
@@ -30,26 +30,18 @@ const isActive = true;
 
 ---
 
-## Exception — Domain-Specific Business Terms
+## No Exceptions for Domain Terms
 
-A Spanish identifier is allowed **only when ALL of the following are true**:
-
-1. It represents a business concept that belongs to a specific domain (not a generic programming term)
-2. The term is non-generic — it cannot be replaced by a common English word without losing domain meaning
-3. It is used as a domain noun, not as a generic container or utility
+Business concepts may be written in Spanish in user-facing text, documentation, and data values when product language requires it. They must still use an English source-code identifier.
 
 ```ts
-// ✅ Allowed — non-generic domain business terms
+// Incorrect
 const expedienteId = params.id;
-type TramiteStatus = 'pendiente' | 'aprobado' | 'rechazado';
-const facturaSchema = z.object({ ... });
-interface CuentaCorrienteItem { ... }
+type TramiteStatus = 'pending' | 'approved' | 'rejected';
 
-// ❌ NOT allowed — generic terms disguised as domain
-const datosUsuario = {};       // → userData
-const listaExpedientes = [];   // → expedienteList
-const resultadoBusqueda = {};  // → searchResult
-const tipoTramite = '';        // → tramiteType
+// Correct
+const caseFileId = params.id;
+type ProcedureStatus = 'pending' | 'approved' | 'rejected';
 ```
 
 ---
@@ -104,4 +96,4 @@ fetch-data.ts
 
 ## Why
 
-Mixing languages in identifiers creates inconsistency, makes code harder to search, and breaks the convention that code reads as English prose. The exception exists for genuine domain terms (often regulatory or industry-specific) that have no idiomatic English translation without losing precision.
+Mixing languages in identifiers creates inconsistency, makes code harder to search, and breaks the convention that code reads as English prose. Preserve domain precision through documentation and UI text, not through mixed-language identifiers.

@@ -311,41 +311,39 @@ export function {Component}() {
 
 ## 7. Server Actions Integration
 
-### Form with Server Action
+### Form Through a Domain Hook
 
 **Page** (Server Component):
 
 ```typescript
-import { {action} } from '@/domains/{domain}/actions';
+import { {Domain}Form } from '@/domains/{domain}/components/organisms/{domain}-form';
 
 export default function Page() {
-  return (
-    <form action={{action}}>
-      <input name="field" />
-      <button>Submit</button>
-    </form>
-  );
+  return <{Domain}Form />;
 }
 ```
 
-### Client Component with Server Action
+### Client Form Component
 
 ```typescript
 'use client';
 
-import { useActionState } from 'react';
-import { {action} } from '@/domains/{domain}/actions';
+import { use{Domain}Submit } from '@/domains/{domain}/hooks/use-{domain}-submit';
 
 export function {Component}() {
-  const [state, formAction] = useActionState({action}, null);
+  const { register, onSubmit, errors, isSubmitting } = use{Domain}Submit();
 
   return (
-    <form action={formAction}>
-      {/* Form fields */}
+    <form onSubmit={onSubmit}>
+      <input {...register('field')} />
+      {errors.field && <p>{errors.field.message}</p>}
+      <button disabled={isSubmitting}>Submit</button>
     </form>
   );
 }
 ```
+
+The domain hook owns React Hook Form orchestration and invokes the Server Action. Every form requires a dedicated Zod schema and `zodResolver`.
 
 ## 8. Middleware for Route Protection
 

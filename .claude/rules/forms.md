@@ -10,13 +10,13 @@ paths: src/**/*.{ts,tsx}
 
 ## Required Stack
 
-| Concern | Tool | Location |
-|---|---|---|
-| Form state & submission | React Hook Form | Component / hook |
-| Validation schema | Zod | `[entity].schema.ts` |
-| Schema → RHF bridge | `@hookform/resolvers/zod` | Hook |
-| Error messages | `validation-messages.ts` | Per domain |
-| Form submission | Server Action | `actions.ts` |
+| Concern                 | Tool                      | Location             |
+| ----------------------- | ------------------------- | -------------------- |
+| Form state & submission | React Hook Form           | Component / hook     |
+| Validation schema       | Zod                       | `[entity].schema.ts` |
+| Schema → RHF bridge     | `@hookform/resolvers/zod` | Hook                 |
+| Error messages          | `validation-messages.ts`  | Per domain           |
+| Form submission         | Server Action             | `actions.ts`         |
 
 ---
 
@@ -31,13 +31,14 @@ import { authValidationMessages } from './validation-messages';
 
 export const loginSchema = z.object({
   email: z.string().email(authValidationMessages.email),
-  password: z.string().min(8, authValidationMessages.passwordTooShort),
+  password: z.string().min(8, authValidationMessages.passwordTooShort)
 });
 
 export type LoginInput = z.infer<typeof loginSchema>;
 ```
 
 **Rules:**
+
 - ✅ Named `{form-name}.schema.ts` or `{entity}.schema.ts` in kebab-case
 - ✅ Export both `schema` (const) and `Input` type (inferred)
 - ✅ Use validation messages from `validation-messages.ts` — no hardcoded strings
@@ -63,12 +64,12 @@ export function useLoginSubmit() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
+    setError
   } = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
+    resolver: zodResolver(loginSchema)
   });
 
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async data => {
     const result = await loginAction(data);
     if (result?.error) {
       setError('root', { message: result.error });
@@ -80,6 +81,7 @@ export function useLoginSubmit() {
 ```
 
 **Rules:**
+
 - ✅ Always pass `resolver: zodResolver(schema)` to `useForm`
 - ✅ Type `useForm<SchemaInput>` explicitly — never infer `any`
 - ✅ Use `handleSubmit` to wrap submission — never call `onSubmit` directly
@@ -122,7 +124,9 @@ export function LoginForm() {
       )}
 
       <button type="submit" disabled={isSubmitting}>
-        {isSubmitting ? authMessages.login.submitting : authMessages.login.submit}
+        {isSubmitting
+          ? authMessages.login.submitting
+          : authMessages.login.submit}
       </button>
     </form>
   );
@@ -130,6 +134,7 @@ export function LoginForm() {
 ```
 
 **Rules:**
+
 - ✅ Form component only renders — all logic is in the hook
 - ✅ Use `{...register('fieldName')}` for all inputs
 - ✅ Always render `errors.{field}.message` beside each field
@@ -172,13 +177,13 @@ Split the schema by step. Keep each step schema independent, compose with `.merg
 // domains/onboarding/onboarding-step-1.schema.ts
 export const step1Schema = z.object({
   firstName: z.string().min(1),
-  lastName: z.string().min(1),
+  lastName: z.string().min(1)
 });
 
 // domains/onboarding/onboarding-step-2.schema.ts
 export const step2Schema = z.object({
   role: z.enum(['admin', 'member', 'viewer']),
-  team: z.string().min(1),
+  team: z.string().min(1)
 });
 
 // domains/onboarding/onboarding.schema.ts (full shape for server validation)
@@ -205,7 +210,7 @@ if (!email.includes('@')) { setError('Invalid email'); }
 const schema = z.object({ email: z.string() }); // should be in .schema.ts
 
 // ❌ Calling Server Action directly from JSX
-<form action={loginAction}>  // bypass hook + RHF — don't do this for complex forms
+<form action={loginAction}>  // bypasses the required hook + RHF pattern
 
 // ❌ No resolver
 useForm();  // missing zodResolver — validation won't run

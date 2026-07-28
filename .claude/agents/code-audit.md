@@ -182,12 +182,14 @@ Check every rule below for every file in scope. Every ❌ hit is a violation to 
 
 - ❌ Business logic (hooks with domain logic, Server Actions, Zod schemas) inside `/components/` or `/lib/`
 - ❌ Domain files outside of `/domains/{domain}/`
+- ❌ Generic or oversized domain names, or a feature implemented without a bounded domain
 - ✅ Domain structure: `actions.ts`, `hooks/`, `stores/`, `schema.ts`, `types.ts` within `/domains/{domain}/`
 
 ### 6. Naming Conventions
 
 - ❌ Boolean variable/state missing prefix: `const loading`, `const error`, `const open`
 - ❌ Event handler missing `handle` prefix: `const submit`, `const click`, `const change`
+- ❌ Source-code identifier in a language other than English
 - ❌ Directory or file in PascalCase or camelCase instead of kebab-case
 - ✅ `isLoading`, `hasError`, `shouldRedirect` — `handleSubmit`, `handleClick`
 
@@ -196,7 +198,8 @@ Check every rule below for every file in scope. Every ❌ hit is a violation to 
 - ❌ Zustand store that fetches from backend (`fetch`, `axios`, async calls inside `create()`)
 - ❌ `useState` used to manage a list of entities fetched from the server
 - ❌ Complex form state managed manually with `useState` instead of React Hook Form
-- ✅ React Query for server state · Zustand for UI-only state · useState for local component state
+- ❌ Universal, global, general, or catch-all Zustand store
+- ✅ React Query for server state · segmented Zustand stores for UI-only state · useState for local component state
 
 ### 8. Route Protection
 
@@ -205,9 +208,9 @@ Check every rule below for every file in scope. Every ❌ hit is a violation to 
 
 ### 9. Forms
 
-- ❌ Multiple `useState` calls managing form fields in a complex form
+- ❌ Form state managed with `useState`, `useActionState`, or native form actions
 - ❌ Missing `zodResolver` in `useForm` when a Zod schema exists for that entity
-- ✅ React Hook Form + `zodResolver` for complex forms · `useActionState` for simple ones
+- ✅ React Hook Form + `zodResolver` for every form
 
 ### 10. Styles
 

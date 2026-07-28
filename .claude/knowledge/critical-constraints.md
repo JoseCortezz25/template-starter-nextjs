@@ -56,12 +56,12 @@ export async function updateUserProfile(formData: FormData) {
   // Update logic...
 }
 
-// In component
-('use client');
-import { updateUserProfile } from '@/domains/users/actions';
+// In a domain hook
+import { updateUserProfile } from '../actions';
 
-function ProfileForm() {
-  return <form action={updateUserProfile}>...</form>;
+export function useUpdateUserProfile() {
+  // The hook owns the form orchestration and invokes the Server Action.
+  return { updateUserProfile };
 }
 ```
 
@@ -125,7 +125,7 @@ export default function DashboardPage() {} // Exception: Next.js pages
 ```
 src/
 ├── domains/           # ✅ Business logic by domain
-│   ├── auth/
+│   ├── authentication/
 │   │   ├── components/
 │   │   ├── hooks/
 │   │   ├── stores/
@@ -178,12 +178,12 @@ const AuthWizard = '/'; // Directory must be kebab-case
 
 ### Decision Matrix
 
-| State Type    | Tool            | When to Use                         | Example                        |
-| ------------- | --------------- | ----------------------------------- | ------------------------------ |
-| **Server**    | React Query     | Data from backend (fetched, cached) | User list, workouts, exercises |
-| **Client/UI** | Zustand         | UI state, local preferences         | Sidebar open, theme, filters   |
-| **Local**     | useState        | Component-only state                | Form input, modal open         |
-| **Forms**     | React Hook Form | Complex forms with validation       | Multi-step forms, registration |
+| State Type    | Tool            | When to Use                         | Example                         |
+| ------------- | --------------- | ----------------------------------- | ------------------------------- |
+| **Server**    | React Query     | Data from backend (fetched, cached) | User list, workouts, exercises  |
+| **Client/UI** | Zustand         | UI state, local preferences         | Sidebar open, theme, filters    |
+| **Local**     | useState        | Component-only state                | Form input, modal open          |
+| **Forms**     | React Hook Form | Every form with Zod validation      | Login, search, multi-step forms |
 
 ### ❌ WRONG: Zustand for Server State
 
@@ -252,17 +252,15 @@ function WorkoutList() {
 import { create } from 'zustand';
 
 // ✅ Only UI/client state
-export const useUIStore = create(set => ({
-  sidebarOpen: true,
-  theme: 'light',
-  toggleSidebar: () => set(state => ({ sidebarOpen: !state.sidebarOpen })),
-  setTheme: theme => set({ theme })
+export const useSidebarStore = create(set => ({
+  isOpen: true,
+  toggle: () => set(state => ({ isOpen: !state.isOpen }))
 }));
 
 // In component
 function Sidebar() {
-  const { sidebarOpen, toggleSidebar } = useUIStore();
-  // ✅ Perfect for UI state
+  const { isOpen, toggle } = useSidebarStore();
+  // Correct: this store owns one UI capability.
 }
 ```
 
@@ -333,29 +331,27 @@ export async function deleteUser(id: string) {
   // ...
 }
 
-// ✅ Layer 3: Conditional Client UI
+// Layer 3: Conditional Client UI through a domain hook
 ('use client');
 function AdminPanel() {
-  const user = useAuthStore(s => s.user);
+  const { canDeleteUsers, handleDeleteUser } = useAdminActions();
 
-  if (!user.roles.includes('admin')) {
-    return null; // Hide sensitive UI
-  }
+  if (!canDeleteUsers) return null;
 
-  return <button onClick={() => deleteUser(id)}>Delete</button>;
+  return <button onClick={handleDeleteUser}>Delete</button>;
 }
 ```
 
 ---
 
-## 9. Forms: React Hook Form for complex, native hooks for simple
+## 9. Forms: React Hook Form + Zod for every form
 
-❌ **NEVER**: Handle complex form state manually with useState  
-✅ **ALWAYS**: Use React Hook Form for complex forms, useActionState for simple forms
+❌ **NEVER**: Manage form state with `useState`, `useActionState`, or native form actions
+✅ **ALWAYS**: Use React Hook Form with `zodResolver` and a dedicated Zod schema for every form
 
-### Complex Forms (with validation)
+### Form pattern
 
-Use **React Hook Form** with Zod validation for complex forms with multiple fields, validation rules, or multi-step flows.
+Use **React Hook Form** with Zod validation for every form, regardless of its number of fields or steps. Each form keeps its schema in a dedicated `.schema.ts` file and revalidates it in its Server Action.
 
 ```tsx
 // domains/auth/components/register-form.tsx
@@ -406,7 +402,7 @@ export function RegisterForm() {
 /* styles/components/atoms/input.css */
 /* ✅ Extract repeated patterns with @apply */
 .input-base {
-  @apply rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500;
+  @apply rounded-md border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none;
 }
 
 .input-error {
@@ -511,6 +507,48 @@ export function WorkoutDashboard({ userId }: { userId: string }) {
 }
 ```
 
+---
+
+## 12. English-only variables
+
+❌ **NEVER**: Declare variables, parameters, constants, props, functions, hooks, types, or files in Spanish or another language
+✅ **ALWAYS**: Write source-code identifiers in English, with no domain-term exception
+
+```tsx
+// Incorrect
+const usuarioActual = getUser();
+
+// Correct
+const currentUser = getUser();
+```
+
+---
+
+## 13. Segmented Zustand stores
+
+❌ **NEVER**: Create universal, general, or catch-all stores such as `useAppStore`, `useUIStore`, `useGlobalStore`, or `useGeneralStore`
+✅ **ALWAYS**: Create small stores that own one cohesive UI capability within its domain
+
+```tsx
+// Incorrect: unrelated concerns in one global store
+const useAppStore = create(() => ({ isSidebarOpen: true, theme: 'light' }));
+
+// Correct: each store owns one UI concern
+const useSidebarStore = create(() => ({ isOpen: true }));
+const useThemePreferenceStore = create(() => ({ theme: 'light' }));
+```
+
+---
+
+## 14. Domain discovery and bounded scope
+
+❌ **NEVER**: Create generic or oversized domains such as `core`, `common`, `app`, `shared`, or `management`, or start a feature when its domain is unclear
+✅ **ALWAYS**: Define a narrowly scoped business capability before creating or extending `src/domains/`
+
+Before planning or implementing a feature whose domain is not explicitly identified by the user, the agent must ask focused clarifying questions and wait for the answers. It must not continue design or implementation until it can name the business capability, its responsibilities, and its boundaries with adjacent domains.
+
+---
+
 ## Verification Checklist for Agents
 
 Before proceeding with any task, verify:
@@ -526,11 +564,12 @@ Before proceeding with any task, verify:
 - [ ] Async fetch? → Must be wrapped in `<Suspense>`
 - [ ] Exports? → Must be named exports (no default)
 - [ ] Business logic? → Must be in `/domains/{domain}/` and extracted to custom hooks
-- [ ] Names? → Verify conventions: `is/has/should`, `handle`, `kebab-case`
+- [ ] Names? → Verify English-only identifiers plus `is/has/should`, `handle`, and `kebab-case`
 - [ ] State management? → Use correct tool: React Query (server), Zustand (UI), useState (local), React Hook Form (forms)
 - [ ] Backend data? → Must use React Query for fetching/caching, never Zustand
-- [ ] UI/Client state? → Atomic Zustand store in `/domains/{domain}/stores/`
-- [ ] Complex form? → React Hook Form with zodResolver for validation
+- [ ] UI/Client state? → One segmented Zustand store per cohesive UI capability, never a universal store
+- [ ] Form? → React Hook Form with `zodResolver` and one dedicated Zod schema
 - [ ] Protected route? → Middleware + Server Action + Client UI validation
 - [ ] Repeated styles? → Extract to @apply in appropriate CSS files and using BEM.
 - [ ] Complex logic in component? → Extract to custom hook in `/domains/{domain}/hooks/`
+- [ ] Domain unspecified? → Ask clarifying questions and wait before planning or implementation

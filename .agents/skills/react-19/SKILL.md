@@ -83,29 +83,9 @@ function Theme({ showTheme }) {
 }
 ```
 
-## Actions & useActionState
+## Server Actions in This Project
 
-```typescript
-"use server";
-async function submitForm(formData: FormData) {
-  await saveToDatabase(formData);
-  revalidatePath("/");
-}
-
-// With pending state
-import { useActionState } from "react";
-
-function Form() {
-  const [state, action, isPending] = useActionState(submitForm, null);
-  return (
-    <form action={action}>
-      <button disabled={isPending}>
-        {isPending ? "Saving..." : "Save"}
-      </button>
-    </form>
-  );
-}
-```
+Use Server Actions from the domain hook that orchestrates a form. This project requires React Hook Form, `zodResolver`, and a dedicated Zod schema for every form. Do not use `useActionState` or direct `<form action={...}>` submission for form state.
 
 ## ref as Prop (No forwardRef)
 

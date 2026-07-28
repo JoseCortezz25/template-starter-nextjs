@@ -15,6 +15,8 @@ This is a Next.js 15 application using React 19, TypeScript, and Tailwind CSS v4
 - **Component structure**: Atomic Design — atoms, molecules, organisms, templates. Components are dumb and presentational; logic lives in hooks.
 - **Architecture**: Domain Driven Design — each domain is self-contained with its own components, hooks, stores, schemas, and messages. No cross-domain imports.
 - **Forms**: Always use React Hook Form + Zod. Schemas in `.schema.ts` files; one schema per file.
+- **Identifiers**: Use English-only source-code identifiers, without exceptions for domain terms.
+- **Stores**: Segment Zustand stores by one cohesive UI capability; universal or general stores are forbidden.
 - **Conditional classes**: Always use the `cn()` utility for conditional or merged class names — never string interpolation (`\`class-${var}\``).
 
 > Full non-negotiable constraints → `.claude/knowledge/critical-constraints.md`
@@ -27,6 +29,10 @@ This is a Next.js 15 application using React 19, TypeScript, and Tailwind CSS v4
 `.claude/knowledge/critical-constraints.md`
 
 This document contains non-negotiable architectural rules. Violating these rules is unacceptable.
+
+## Domain Clarification Gate
+
+Before planning or implementing a feature, verify that the user has explicitly identified its business domain. If not, ask focused clarification questions and wait for the answers. Do not design, create, or extend a domain until its capability, responsibilities, and boundaries with adjacent domains are clear.
 
 ## Available Specialized Agents
 
@@ -105,6 +111,8 @@ Implement directly (typos, simple edits) - no session needed.
 - Use repository pattern for data access (no direct DB imports)
 - Externalize all text to text maps (no hardcoded strings)
 - Follow architecture dependency rules strictly
+- Define a bounded domain before planning or implementing a feature
+- Use English-only identifiers and segmented Zustand stores
 - Agents create plans, parent executes
 
 ## MCP Configuration
@@ -122,18 +130,18 @@ Implement directly (typos, simple edits) - no session needed.
 
 **Auto-applied rules** (based on file paths) in `.claude/rules/`:
 
-| Rule                              | Applies to                  | Description                                                                 |
-| --------------------------------- | --------------------------- | --------------------------------------------------------------------------- |
-| `code-quality.md`                 | `src/**/*.{ts,tsx}`         | ESLint conventions, TypeScript strictness, no `any`                         |
-| `naming-conventions.md`           | `src/**/*.{ts,tsx}`         | kebab-case files, PascalCase components, suffixes                           |
-| `folder-structure.md`             | `src/**/*.{ts,tsx}`         | Screaming Architecture + Atomic Design layout                               |
-| `text-management.md`              | `src/**/*.{ts,tsx}`         | Domain messages, no hardcoded strings                                       |
-| `styling.md`                      | `src/**/*.{ts,tsx}`         | Tailwind + `@apply`, mobile-first, no inline styles                         |
-| `project-characteristics.md`      | `src/**/*.{ts,tsx}`         | RSC-first, Zustand, nuqs, Server Actions                                    |
-| `document-component-storybook.md` | `src/**/*.{ts,tsx}`         | Storybook story structure aligned with Figma                                |
-| `ddd-domain-structure.md`         | `src/domains/**/*.{ts,tsx}` | DDD domain anatomy: components, hooks, stores, actions, schemas, messages   |
-| `forms.md`                        | `src/**/*.{ts,tsx}`         | React Hook Form + Zod obligatorio, schema por archivo, hook por formulario  |
-| `naming-language.md`              | `src/**/*.{ts,tsx}`         | English-only identifiers — no Spanish names except non-generic domain terms |
+| Rule                              | Applies to                  | Description                                                                |
+| --------------------------------- | --------------------------- | -------------------------------------------------------------------------- |
+| `code-quality.md`                 | `src/**/*.{ts,tsx}`         | ESLint conventions, TypeScript strictness, no `any`                        |
+| `naming-conventions.md`           | `src/**/*.{ts,tsx}`         | kebab-case files, PascalCase components, suffixes                          |
+| `folder-structure.md`             | `src/**/*.{ts,tsx}`         | Screaming Architecture + Atomic Design layout                              |
+| `text-management.md`              | `src/**/*.{ts,tsx}`         | Domain messages, no hardcoded strings                                      |
+| `styling.md`                      | `src/**/*.{ts,tsx}`         | Tailwind + `@apply`, mobile-first, no inline styles                        |
+| `project-characteristics.md`      | `src/**/*.{ts,tsx}`         | RSC-first, Zustand, nuqs, Server Actions                                   |
+| `document-component-storybook.md` | `src/**/*.{ts,tsx}`         | Storybook story structure aligned with Figma                               |
+| `ddd-domain-structure.md`         | `src/domains/**/*.{ts,tsx}` | DDD domain anatomy: components, hooks, stores, actions, schemas, messages  |
+| `forms.md`                        | `src/**/*.{ts,tsx}`         | React Hook Form + Zod obligatorio, schema por archivo, hook por formulario |
+| `naming-language.md`              | `src/**/*.{ts,tsx}`         | English-only identifiers, without exceptions                               |
 
 ## General instructions
 
@@ -157,7 +165,7 @@ Canonical source: `AGENTS/` (root). `.claude/skills` and `.opencode/skills` are 
 | `commit-conventions`                 | Enforce project-specific Git commit message conventions compatible with commitlint           | [.claude/skills/commit-conventions](.claude/skills/commit-conventions/SKILL.md)                                 |
 | `atomic-design`                      | Guide for creating, componentizing, and refactoring UI components following Atomic Design    | [.claude/skills/atomic-design](.claude/skills/atomic-design/SKILL.md)                                           |
 | `forms`                              | Forms with React Hook Form + Zod — schema, hook, component, and Server Action patterns       | [.claude/skills/forms](.claude/skills/forms/SKILL.md)                                                           |
-| `naming-language`                    | English-only identifiers — detect and fix Spanish names with narrow domain-term exception    | [.claude/skills/naming-language](.claude/skills/naming-language/SKILL.md)                                       |
+| `naming-language`                    | English-only identifiers — detect and fix non-English source-code names                      | [.claude/skills/naming-language](.claude/skills/naming-language/SKILL.md)                                       |
 
 ## How Skills Work
 
@@ -171,6 +179,7 @@ Canonical source: `AGENTS/` (root). `.claude/skills` and `.opencode/skills` are 
 Before starting work:
 
 - [ ] Read `.claude/knowledge/critical-constraints.md`?
+- [ ] Is the feature domain explicit and bounded? If not, ask and wait before continuing.
 - [ ] Understand my role (check `.claude/agents/{my-name}.md` if specialized agent)?
 - [ ] Know which MCP tools I have access to?
 - [ ] Will create plan in `.claude/plans/` (not implement directly)?
