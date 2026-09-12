@@ -1,13 +1,13 @@
 <div align="center">
 
-# Next.js 15 Starter Template
+# Next.js 16 Starter Template
 
-![Next.js](https://img.shields.io/badge/Next.js-15.3.8-black?style=for-the-badge&logo=next.js)
-![React](https://img.shields.io/badge/React-19.1.1-61DAFB?style=for-the-badge&logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6?style=for-the-badge&logo=typescript)
+![Next.js](https://img.shields.io/badge/Next.js-16.2.12-black?style=for-the-badge&logo=next.js)
+![React](https://img.shields.io/badge/React-19.2.8-61DAFB?style=for-the-badge&logo=react)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-3178C6?style=for-the-badge&logo=typescript)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-v4-06B6D4?style=for-the-badge&logo=tailwind-css)
 
-**A production-ready Next.js 15 starter template with TypeScript, Tailwind CSS v4, shadcn/ui, and modern architecture patterns.**
+**A production-ready Next.js 16 starter template with TypeScript, Tailwind CSS v4, shadcn/ui, and modern architecture patterns.**
 
 [Quick Start](#-quick-start) • [Features](#-features) • [Architecture](#-architecture) • [Tech Stack](#-tech-stack) • [AI-Assisted Development](#-ai-assisted-development) • [Documentation](#-documentation)
 
@@ -34,11 +34,11 @@
 
 ## 🎯 Overview
 
-This is a professional-grade Next.js 15 starter template designed for building scalable, maintainable web applications. It implements modern architectural patterns including **Screaming Architecture** and **Atomic Design**, with a focus on React Server Components (RSC) and Server Actions.
+This is a professional-grade Next.js 16 starter template designed for building scalable, maintainable web applications. It implements modern architectural patterns including **Screaming Architecture** and **Atomic Design**, with a focus on React Server Components (RSC) and Server Actions.
 
 ### Key Highlights
 
-- ⚡ **Next.js 15** with React 19 and App Router
+- ⚡ **Next.js 16** with React 19 and App Router
 - 🎨 **Tailwind CSS v4** with shadcn/ui components
 - 🏗️ **Screaming Architecture** - Domain-driven organization
 - 🔐 **Server Actions** with authentication & authorization
@@ -211,56 +211,56 @@ src/
 
 ### Core Framework
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Next.js** | 15.3.8 | React framework with hybrid rendering |
-| **React** | 19.1.1 | Core UI library with Server Components |
-| **TypeScript** | 5.0 | Type-safe JavaScript |
+| Technology     | Version | Purpose                                |
+| -------------- | ------- | -------------------------------------- |
+| **Next.js**    | 16.2.12 | React framework with hybrid rendering  |
+| **React**      | 19.2.8  | Core UI library with Server Components |
+| **TypeScript** | 5.9.2   | Type-safe JavaScript                   |
 
 ### UI & Styling
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Tailwind CSS** | v4.1.12 | Utility-first CSS framework |
-| **shadcn/ui** | latest | Accessible React components |
-| **Radix UI** | latest | Unstyled UI primitives |
-| **Lucide React** | 0.503.0 | Icon library |
+| Technology       | Version | Purpose                     |
+| ---------------- | ------- | --------------------------- |
+| **Tailwind CSS** | v4.1.13 | Utility-first CSS framework |
+| **shadcn/ui**    | latest  | Accessible React components |
+| **Radix UI**     | latest  | Unstyled UI primitives      |
+| **Lucide React** | 0.503.0 | Icon library                |
 
 ### State Management
 
-| Technology | Purpose | When to Use |
-|-----------|---------|-------------|
-| **React Query** | Server state (data from backend) | Fetched, cached data |
-| **Zustand** | UI/client state | Preferences, filters |
-| **React Hook Form** | Complex forms | Multi-step forms, validation |
-| **useState** | Local component state | Component-only data |
+| Technology          | Purpose                          | When to Use                  |
+| ------------------- | -------------------------------- | ---------------------------- |
+| **React Query**     | Server state (data from backend) | Fetched, cached data         |
+| **Zustand**         | UI/client state                  | Preferences, filters         |
+| **React Hook Form** | Complex forms                    | Multi-step forms, validation |
+| **useState**        | Local component state            | Component-only data          |
 
 ### Validation & Forms
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Zod** | latest | TypeScript-first schema validation |
-| **React Hook Form** | latest | Form state management |
+| Technology          | Version | Purpose                            |
+| ------------------- | ------- | ---------------------------------- |
+| **Zod**             | latest  | TypeScript-first schema validation |
+| **React Hook Form** | latest  | Form state management              |
 
 ### Testing
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Vitest** | 3.1.3 | Fast testing framework |
-| **Jest** | 29.7.0 | Alternative testing framework |
-| **React Testing Library** | latest | React component testing |
-| **Playwright** | latest | E2E testing |
+| Technology                | Version | Purpose                       |
+| ------------------------- | ------- | ----------------------------- |
+| **Vitest**                | 3.2.4   | Fast testing framework        |
+| **Jest**                  | 29.7.0  | Alternative testing framework |
+| **React Testing Library** | latest  | React component testing       |
+| **Playwright**            | latest  | E2E testing                   |
 
 ### Development Tools
 
-| Technology | Version | Purpose |
-|-----------|---------|---------|
-| **Storybook** | 8.6.14 | Component development & documentation |
-| **ESLint** | 9 | Code linting |
-| **Prettier** | 3.5.3 | Code formatting |
-| **Husky** | 9.1.7 | Git hooks |
-| **lint-staged** | 15.5.2 | Run linters on staged files |
-| **Turbopack** | built-in | Next-gen bundler |
+| Technology      | Version  | Purpose                               |
+| --------------- | -------- | ------------------------------------- |
+| **Storybook**   | 8.6.14   | Component development & documentation |
+| **ESLint**      | 9        | Code linting                          |
+| **Prettier**    | 3.6.2    | Code formatting                       |
+| **Husky**       | 9.1.7    | Git hooks                             |
+| **lint-staged** | 15.5.2   | Run linters on staged files           |
+| **Turbopack**   | built-in | Next-gen bundler                      |
 
 ### Package Manager
 
@@ -340,27 +340,33 @@ nextjs-starter-template/
 ### File Naming Conventions
 
 **Components**: `kebab-case.tsx` (e.g., `user-profile.tsx`, `login-form.tsx`)
+
 - ✅ `button.tsx`
 - ❌ `Button.tsx`
 - ❌ `userProfile.tsx`
 
 **Hooks**: `use-{name}.ts` (e.g., `use-auth.ts`, `use-user-profile.ts`)
+
 - ✅ `use-auth.ts`
 - ❌ `useAuth.ts`
 
 **Server Actions**: `actions.ts` or `{name}-actions.ts`
+
 - ✅ `actions.ts`
 - ❌ `authActions.ts`
 
 **Stores**: `{name}-store.ts`
+
 - ✅ `auth-store.ts`
 - ❌ `authStore.ts`
 
 **Schemas**: `schema.ts` or `{name}-schema.ts`
+
 - ✅ `schema.ts`
 - ❌ `authSchema.ts`
 
 **Tests**: `{name}.test.ts` or `{name}.spec.ts`
+
 - ✅ `button.test.tsx`
 - ❌ `buttonTest.tsx`
 
@@ -371,11 +377,11 @@ nextjs-starter-template/
 ### Development
 
 ```bash
-# Start development server with Turbopack (recommended)
+# Start development server (Turbopack, default since Next.js 16)
 pnpm dev
 
-# Start development server with webpack
-pnpm dev -- --no-turbopack
+# Start development server with webpack instead
+pnpm dev -- --webpack
 
 # Start Storybook
 pnpm storybook
@@ -591,6 +597,7 @@ chore: update dependencies
 ### 5. Pre-commit Hooks
 
 Before each commit:
+
 1. **Husky** triggers the pre-commit hook
 2. **lint-staged** runs on changed files
 3. **Prettier** formats the code
@@ -605,33 +612,33 @@ This project includes a complete setup for coding with AI assistance using **Ope
 
 ### Available MCPs (4)
 
-| MCP | Functionality |
-|-----|---------------|
-| **shadcn** | Components, registries, and examples for shadcn/ui. Component search, usage examples, and commands to add components to the project. |
-| **playwright** | Browser automation and E2E testing. Page navigation, interaction, snapshot capture, and test flow execution. |
-| **chrome-devtools** | Page inspection, accessibility snapshots, performance analysis, and integrated DevTools. |
-| **Figma Desktop** | Design context from Figma, screenshots, design variables, and code generation from designs. Requires Figma Desktop app to be open. |
+| MCP                 | Functionality                                                                                                                        |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| **shadcn**          | Components, registries, and examples for shadcn/ui. Component search, usage examples, and commands to add components to the project. |
+| **playwright**      | Browser automation and E2E testing. Page navigation, interaction, snapshot capture, and test flow execution.                         |
+| **chrome-devtools** | Page inspection, accessibility snapshots, performance analysis, and integrated DevTools.                                             |
+| **Figma Desktop**   | Design context from Figma, screenshots, design variables, and code generation from designs. Requires Figma Desktop app to be open.   |
 
 **Configuration**: MCPs are defined in `.mcp.json` (Claude Code) and `opencode.json` (OpenCode). Enable only the ones you need for each task.
 
 ### Available Skills (7)
 
-| Skill | Functionality |
-|-------|---------------|
-| **frontend-design** | Distinctive frontend designs, typography, color palettes, atmospheric backgrounds, and well-orchestrated motion. Avoids generic aesthetics. |
-| **react-19** | React 19 patterns with React Compiler. No manual useMemo/useCallback needed. |
-| **typescript** | Strict TypeScript patterns, types, interfaces, and generics. |
-| **tailwind-4** | Tailwind CSS v4 patterns, `cn()`, theme variables. Do not use `var()` in className. |
-| **zod-4** | Zod v4 schema validation and breaking changes from v3. |
-| **atomic-design** | Guide for creating, componentizing, and refactoring UI components following Atomic Design principles. Triggers when building, splitting, or refactoring components. |
-| **commit-conventions** | Enforces project-specific Git commit message conventions compatible with commitlint and pre-commit hooks. |
+| Skill                  | Functionality                                                                                                                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **frontend-design**    | Distinctive frontend designs, typography, color palettes, atmospheric backgrounds, and well-orchestrated motion. Avoids generic aesthetics.                         |
+| **react-19**           | React 19 patterns with React Compiler. No manual useMemo/useCallback needed.                                                                                        |
+| **typescript**         | Strict TypeScript patterns, types, interfaces, and generics.                                                                                                        |
+| **tailwind-4**         | Tailwind CSS v4 patterns, `cn()`, theme variables. Do not use `var()` in className.                                                                                 |
+| **zod-4**              | Zod v4 schema validation and breaking changes from v3.                                                                                                              |
+| **atomic-design**      | Guide for creating, componentizing, and refactoring UI components following Atomic Design principles. Triggers when building, splitting, or refactoring components. |
+| **commit-conventions** | Enforces project-specific Git commit message conventions compatible with commitlint and pre-commit hooks.                                                           |
 
 **Location**: `.claude/skills/` (Claude) and `.opencode/skills/` (OpenCode). Skills are loaded automatically based on editing context.
 
 ### Available Commands
 
-| Command | Description |
-|---------|-------------|
+| Command        | Description                                                                                                                                                                                   |
+| -------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **ui-to-json** | Generates structured JSON prompts for Vibe Coding (V0, etc.) from wireframes or interface descriptions. Includes sections for context, objective, constraints, aesthetics, and output format. |
 
 **Location**: `.claude/commands/` (Claude Code) and `.opencode/commands/` (OpenCode).
@@ -699,8 +706,8 @@ Contributions are welcome! Please follow these guidelines:
 
 <div align="center">
 
-**Built with ❤️ using Next.js 15, React 19, and modern web technologies**
+**Built with ❤️ using Next.js 16, React 19, and modern web technologies**
 
-[⬆ Back to Top](#nextjs-15-starter-template)
+[⬆ Back to Top](#nextjs-16-starter-template)
 
 </div>
