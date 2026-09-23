@@ -51,7 +51,7 @@ export const Header = ({ user, onLogin, onLogout, onCreateAccount }: HeaderProps
             <Button size="sm" onClick={onLogin}>
               Log in
             </Button>
-            <Button variant="primary" size="sm" onClick={onCreateAccount}>
+            <Button variant="default" size="sm" onClick={onCreateAccount}>
               Sign up
             </Button>
           </>

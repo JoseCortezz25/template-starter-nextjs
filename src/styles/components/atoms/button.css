@@ -1,57 +1,39 @@
-.primary-button {
-  background: #ff3333;
-  color: white;
-  border: none;
-  padding: 16px 32px;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  position: relative;
-  transition: all 0.3s ease;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: -3px;
-    left: -3px;
-    right: -3px;
-    bottom: -3px;
-    background: linear-gradient(
-      158deg,
-      #f68081 15%,
-      #ff3333 50%,
-      #ff3333 50%,
-      #f68081 90%
-    );
-    border-radius: 50px;
-    z-index: -1;
-  }
+.button {
+  @apply inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive;
 }
 
-.secondary-button {
-  @apply text-black-100 inline-flex items-center justify-center gap-2 rounded-[32px] border border-white;
-  background: linear-gradient(
-    270deg,
-    rgba(255, 255, 255, 0) -0.94%,
-    rgba(255, 255, 255, 0.09) 47.02%,
-    rgba(255, 255, 255, 0) 104.06%
-  );
-  box-shadow:
-    2px 2px 4px 0px rgba(255, 255, 255, 0.25) inset,
-    0px 0px 3px 0px rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(2px);
+.button--default {
+  @apply bg-primary text-primary-foreground shadow-xs hover:bg-primary/90;
+}
 
-  &:hover {
-    background: linear-gradient(
-      270deg,
-      rgba(255, 255, 255, 0) -0.94%,
-      rgba(255, 255, 255, 0.18) 47.02%,
-      rgba(255, 255, 255, 0) 104.06%
-    );
-    box-shadow:
-      2px 2px 4px 0px rgba(255, 255, 255, 0.25) inset,
-      0px 0px 3px 0px rgba(255, 255, 255, 0.65);
-    backdrop-filter: blur(2px);
-  }
+.button--destructive {
+  @apply bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60;
+}
+
+.button--outline {
+  @apply border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50;
+}
+
+.button--ghost {
+  @apply hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50;
+}
+
+.button--link {
+  @apply text-primary underline-offset-4 hover:underline;
+}
+
+.button--md {
+  @apply h-9 px-4 py-2 has-[>svg]:px-3;
+}
+
+.button--sm {
+  @apply h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5;
+}
+
+.button--lg {
+  @apply h-10 rounded-md px-6 has-[>svg]:px-4;
+}
+
+.button--icon {
+  @apply size-9;
 }

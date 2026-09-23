@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { fn } from '@storybook/test';
+import { Pencil } from 'lucide-react';
 
 import { Button } from '../components/ui/button';
-import { Pencil } from 'lucide-react';
 
 const meta = {
   title: 'Atoms/Button',
@@ -19,64 +19,57 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    variant: 'primary',
-    children: 'Primary Button'
+    variant: 'default',
+    children: 'Button'
   }
 };
 
-export const DefaultWithLeftIcon: Story = {
+export const Destructive: Story = {
   args: {
-    variant: 'primary',
-    children: (
-      <>
-        <Pencil />
-        Primary Button
-      </>
-    )
+    variant: 'destructive',
+    children: 'Button'
   }
 };
 
-export const DefaultWithRightIcon: Story = {
+export const Outline: Story = {
   args: {
-    variant: 'primary',
-    children: (
-      <>
-        Primary Button
-        <Pencil />
-      </>
-    )
+    variant: 'outline',
+    children: 'Button'
   }
 };
 
-
-export const Secondary: Story = {
+export const Ghost: Story = {
   args: {
-    variant: 'secondary',
-    children: 'Secondary Button'
+    variant: 'ghost',
+    children: 'Button'
   }
 };
 
-export const SecondaryWithLeftIcon: Story = {
+export const Link: Story = {
   args: {
-    variant: 'secondary',
-    children: (
-      <>
-        <Pencil />
-        Secondary Button
-      </>
-    )
+    variant: 'link',
+    children: 'Button'
   }
 };
 
-export const SecondaryWithRightIcon: Story = {
+export const Small: Story = {
   args: {
-    variant: 'secondary',
-    size: 'default',
-    children: (
-      <>
-        Secondary Button
-        <Pencil />
-      </>
-    )
+    size: 'sm',
+    children: 'Button'
+  }
+};
+
+export const Large: Story = {
+  args: {
+    size: 'lg',
+    children: 'Button'
+  }
+};
+
+export const Icon: Story = {
+  args: {
+    size: 'icon',
+    'aria-label': 'Button',
+    children: <Pencil />
   }
 };
