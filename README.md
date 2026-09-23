@@ -54,7 +54,7 @@ This is a professional-grade Next.js 16 starter template designed for building s
 
 ### Prerequisites
 
-- **Node.js**: >= 20.11.0
+- **Node.js**: >= 24
 - **pnpm**: 10.15.1 (recommended) or npm
 
 ### Installation
