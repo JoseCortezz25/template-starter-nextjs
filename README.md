@@ -343,9 +343,18 @@ src/
 
 ```
 nextjs-starter-template/
-├── .claude/                  # AI assistant configuration
+├── .agents/                  # Single source of truth for AI content
+│   ├── knowledge/           # Canonical knowledge documents
+│   ├── rules/               # Canonical path-scoped rules
+│   └── skills/              # Canonical skills
+│
+├── .claude/                  # Claude Code configuration (per-tool)
 │   ├── agents/              # Specialized agents for tasks
-│   ├── knowledge/           # Documentation
+│   ├── knowledge/           # Symlinks -> ../../.agents/knowledge/
+│   ├── rules/               # Symlinks -> ../../.agents/rules/
+│   ├── skills/              # Symlinks -> ../../.agents/skills/
+│   ├── commands/            # Custom commands
+│   ├── hooks/               # Tool hooks
 │   ├── plans/               # Implementation plans
 │   ├── reports/             # Generated reports
 │   └── tasks/               # Session logs
@@ -353,6 +362,13 @@ nextjs-starter-template/
 ├── .husky/                  # Git hooks
 │   ├── pre-commit          # Pre-commit hook
 │   └── commit-msg          # Commit message validation
+│
+├── .opencode/               # OpenCode configuration (per-tool)
+│   ├── agents/             # Specialized agents for tasks
+│   ├── knowledge/          # Symlink -> ../.agents/knowledge
+│   ├── rules/              # Symlink -> ../.agents/rules
+│   ├── skills/             # Symlink -> ../.agents/skills
+│   └── commands/           # Custom commands
 │
 ├── .storybook/             # Storybook configuration
 │   ├── main.ts
@@ -394,7 +410,7 @@ nextjs-starter-template/
 ├── .gitignore
 ├── .mcp.json
 ├── .prettierrc.json
-├── CLAUDE.md             # AI assistant context
+├── AGENTS.md            # AI agent instructions (single source)
 ├── components.json       # shadcn/ui configuration
 ├── commitlint.config.ts
 ├── eslint.config.mjs
@@ -701,7 +717,7 @@ This project includes a complete setup for coding with AI assistance using **Ope
 | **atomic-design**      | Guide for creating, componentizing, and refactoring UI components following Atomic Design principles. Triggers when building, splitting, or refactoring components. |
 | **commit-conventions** | Enforces project-specific Git commit message conventions compatible with commitlint and pre-commit hooks.                                                           |
 
-**Location**: `.claude/skills/` (Claude) and `.opencode/skills/` (OpenCode). Skills are loaded automatically based on editing context.
+**Location**: `.agents/skills/` (canonical source). `.claude/skills/` and `.opencode/skills` are symlinks to it. Skills are loaded automatically based on editing context.
 
 ### Available Commands
 
@@ -713,9 +729,9 @@ This project includes a complete setup for coding with AI assistance using **Ope
 
 ### AI Documentation
 
-- **[CLAUDE.md](./CLAUDE.md)** — Project context for Claude Code
-- **[AGENTS.md](./AGENTS.md)** — Project context for OpenCode
-- **[Critical Constraints](./.claude/knowledge/critical-constraints.md)** — Non-negotiable architectural rules
+- **[AGENTS.md](./AGENTS.md)** — Project instructions for both OpenCode and Claude Code
+- **[Critical Constraints](./.agents/knowledge/critical-constraints.md)** — Non-negotiable architectural rules
+- **[Shared context](./.agents/)** — Single source of truth for knowledge, rules, and skills
 
 ---
 
@@ -725,11 +741,11 @@ This project includes a complete setup for coding with AI assistance using **Ope
 
 The project includes extensive documentation for AI assistants and developers:
 
-- **[CLAUDE.md](./CLAUDE.md)** - Project context and workflow for AI agents
-- **[Critical Constraints](./.claude/knowledge/critical-constraints.md)** - Non-negotiable architectural rules
-- **[Architecture Patterns](./.claude/knowledge/architecture-patterns.md)** - Complete architecture definition
-- **[File Structure](./.claude/knowledge/file-structure.md)** - Naming conventions and organization
-- **[Tech Stack](./.claude/knowledge/tech-stack.md)** - Technology details and commands
+- **[AGENTS.md](./AGENTS.md)** - Project instructions for AI agents
+- **[Critical Constraints](./.agents/knowledge/critical-constraints.md)** - Non-negotiable architectural rules
+- **[Architecture Patterns](./.agents/knowledge/architecture-patterns.md)** - Complete architecture definition
+- **[File Structure](./.agents/knowledge/file-structure.md)** - Naming conventions and organization
+- **[Tech Stack](./.agents/knowledge/tech-stack.md)** - Technology details and commands
 
 ### External Resources
 
