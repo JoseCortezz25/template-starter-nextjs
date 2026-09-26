@@ -63,17 +63,6 @@ Before planning or implementing a feature, verify that the user has explicitly i
 1. **Analyze task** and determine which specialized agents are needed
 2. **Invoke specialized agents** to create implementation plans
 3. **Execute plans** step-by-step
-4. **Run Guardian** after each implementation to verify code culture alignment
-
-### Guardian — Code Culture Verification
-
-After every implementation (feature, fix, or refactor), run:
-
-```bash
-guardian run
-```
-
-Guardian reads `RULES.md` and validates that the implemented code follows the team's cultural conventions. Do not consider an implementation complete until Guardian passes or all violations are explicitly acknowledged.
 
 ## Documentation Map
 
