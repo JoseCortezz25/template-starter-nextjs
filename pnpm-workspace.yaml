@@ -66,7 +66,7 @@ overrides:
   serialize-javascript@>=5.0.0 <7.0.5: 7.1.2
   sharp@<0.35.0: 0.35.4
   sharp@<0.35.4: 0.35.4
-  storybook: 8.6.18
+  storybook: 10.6.0
   tar@<7.5.7: 7.5.22
   tar@<7.5.8: 7.5.22
   tar@<=7.5.10: 7.5.22
