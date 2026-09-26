@@ -1,58 +1,16 @@
-import type { StorybookConfig } from '@storybook/nextjs';
-import path from 'path';
+import type { StorybookConfig } from '@storybook/nextjs-vite';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
-    '@storybook/addon-essentials',
+    '@storybook/addon-docs',
     '@storybook/addon-onboarding',
-    '@chromatic-com/storybook',
-    '@storybook/experimental-addon-test',
-    {
-      name: '@storybook/addon-styling-webpack',
-      options: {
-        postCss: {
-          implementation: require.resolve('postcss')
-        },
-        rules: [
-          {
-            test: /\.css$/,
-            sideEffects: true,
-            use: [
-              require.resolve('style-loader'),
-              {
-                loader: require.resolve('css-loader'),
-                options: {
-                  importLoaders: 1
-                }
-              },
-              {
-                loader: require.resolve('postcss-loader'),
-                options: {
-                  postcssOptions: {
-                    plugins: [
-                      require.resolve('@tailwindcss/postcss'),
-                      require.resolve('autoprefixer')
-                    ]
-                  }
-                }
-              }
-            ]
-          }
-        ]
-      }
-    }
+    '@chromatic-com/storybook'
   ],
   framework: {
-    name: '@storybook/nextjs',
+    name: '@storybook/nextjs-vite',
     options: {}
   },
-  staticDirs: ['../public'],
-  async webpackFinal(config) {
-    config.resolve ??= {};
-    config.resolve.alias ??= {};
-    config.resolve.alias['@'] = path.resolve(__dirname, '../src');
-    return config;
-  }
+  staticDirs: ['../public']
 };
 export default config;

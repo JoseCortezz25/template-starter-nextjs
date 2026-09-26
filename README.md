@@ -19,6 +19,7 @@
 
 - [Overview](#-overview)
 - [Quick Start](#-quick-start)
+- [Docker](#-docker)
 - [Features](#-features)
 - [Architecture](#-architecture)
 - [Tech Stack](#-tech-stack)
@@ -54,7 +55,7 @@ This is a professional-grade Next.js 16 starter template designed for building s
 
 ### Prerequisites
 
-- **Node.js**: >= 20.11.0
+- **Node.js**: >= 24
 - **pnpm**: 10.15.1 (recommended) or npm
 
 ### Installation
@@ -92,6 +93,73 @@ pnpm build
 # Preview production build
 pnpm preview
 ```
+
+---
+
+## 🐳 Docker
+
+This starter ships with a production-ready container setup so you can run the
+app with Docker Compose without designing the workflow from scratch.
+
+### Prerequisites
+
+- **Docker** with the **Compose** plugin (`docker compose`).
+
+### Supported mode
+
+The Compose setup runs in **production** mode: the image builds the app with
+`next build` and serves it with `next start`. Local development stays on the
+host (`pnpm dev`); the container is not a development server.
+
+### Configuration
+
+The Compose file reads its variables from a `.env` file (not committed).
+Copy the template and adjust it if you need a different host port:
+
+```bash
+cp .env.example .env
+```
+
+The only user-facing variable is `APP_PORT` (default `3000`). The Next.js
+server always listens on port `3000` inside the container; `APP_PORT` maps it
+to a port on your machine.
+
+### Commands
+
+```bash
+# Build the image
+docker compose build
+
+# Start the app (builds first if the image is missing)
+docker compose up -d
+
+# Stop the app (keeps the image and volumes)
+docker compose down
+
+# Rebuild after changing dependencies or application source
+docker compose up -d --build
+
+# Inspect the running service
+docker compose ps           # container status and health
+docker compose logs -f app   # follow the application logs
+docker compose exec app sh   # open a shell inside the container
+```
+
+Once started, open [http://localhost:3000](http://localhost:3000) (or the port
+you set in `APP_PORT`).
+
+### Production and security practices
+
+- **Multi-stage build** (`deps` → `builder` → `runner`) keeps the final image
+  lean: development dependencies are never shipped.
+- **Non-root user**: the `next start` process runs as an unprivileged
+  `nextjs` user.
+- **Healthcheck** and a `restart: unless-stopped` policy are defined in
+  `compose.yml`, and `init: true` runs `tini` as PID 1 for correct signal
+  handling.
+- **`.dockerignore`** excludes `node_modules`, build output, local env files,
+  and VCS/tooling directories from the build context.
+- Telemetry is disabled with `NEXT_TELEMETRY_DISABLED=1`.
 
 ---
 
